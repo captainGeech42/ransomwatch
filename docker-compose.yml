@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    depends_on:
+      - proxy
+    volumes:
+      - ./dataset:/dataset
+    environment:
+      PYTHONUNBUFFERED: 1
+
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy

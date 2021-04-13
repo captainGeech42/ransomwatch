@@ -1,0 +1,5 @@
+requests
+requests[socks]
+stem
+beautifulsoup4
+SQLAlchemy
