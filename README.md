@@ -28,6 +28,14 @@ Example crontab entry (running every 8 hours):
 
 (make sure to build it first, `docker-compose build`)
 
+This is an example of a Slack notification for a new victim:
+
+![Slack notification for new victim](/img/slack_example_new_victim.png)
+
+This is an example of a Slack notification for a removed victim:
+
+![Slack notification for new victim](/img/slack_example_removed_victim.png)
+
 ## Leak Site Implementations:
 
 The following leak sites are (planned to be) supported:
