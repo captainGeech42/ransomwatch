@@ -21,9 +21,10 @@ def main(argv):
     logging.info("Initializing")
 
     sites_to_analyze = [
+        sites.Avaddon,
         sites.Conti,
-        sites.Sodinokibi,
-        sites.Avaddon
+        # sites.DarkSide,
+        sites.Sodinokibi
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")

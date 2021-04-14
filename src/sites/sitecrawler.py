@@ -107,7 +107,14 @@ class SiteCrawler:
         # remove anything from the last scrape that was also in this scrape
         # the remaining set is things that were present last time, but not this time
         for v in self.current_victims:
-            victims.remove(v)
+            try:
+                victims.remove(v)
+            except ValueError:
+                # i think there is an edge case here that can be caused by
+                # running the scrape while a victim is removed
+                # it _should_ get picked up on the next run though, so we
+                # can safely ignore this
+                pass
 
         # mark the victims as removed, since they are no longer on the leak site
         for v in victims:

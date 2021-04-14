@@ -4,6 +4,7 @@ sites:
   conti: http://something.onion
   sodinokibi: http://something.onion
   avaddon: http://something.onion
+  darkside: http://something.onion
 
 # slack webhooks
 slack:
