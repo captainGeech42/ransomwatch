@@ -36,16 +36,17 @@ class SiteCrawler:
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0"
     }
 
-    def __init__(self):
+    def __init__(self, url: str):
         """
         make sure site is in db
         check if site is up
             if it is, update last_up in db
         """
 
-        # these should be statically defined in child implementations of the class
+        # this should be statically defined in child implementations of the class
         assert self.actor != ""
-        assert self.url != ""
+
+        self.url = url
 
         self.session = Session()
 

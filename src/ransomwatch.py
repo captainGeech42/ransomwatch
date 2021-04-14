@@ -1,6 +1,7 @@
 import logging
 import sys
 
+from config import Config
 from db.database import Session
 from db.models import Site, Victim
 import sites
@@ -34,9 +35,12 @@ def main(argv):
     logging.info(f"Found {len(sites_to_analyze)} sites")
 
     for site in sites_to_analyze:
-        logging.info(f"Starting scraping on {site.actor} ({defang(site.url)})")
+        logging.info(f"Starting process for {site.actor}")
 
-        s = site()
+        if site.actor.lower() not in Config["sites"]:
+            logging.warning(f"No URL found in config for this actor, skipping")
+
+        s = site(Config["sites"][site.actor.lower()])
         
         if s.first_run:
             logging.info(f"This is the first scrape for {site.actor}")
