@@ -1,4 +1,3 @@
-import requests
 from typing import Dict, List
 
 from sqlalchemy.orm.session import Session as SessionType
@@ -10,7 +9,7 @@ from net.proxy import Proxy
 class SiteCrawler:
     actor: str = ""
     url: str = ""
-    current_victims: List[str] = {}
+    current_victims: List[str] = []
     is_up: bool = False
     session: SessionType
     site: Site
@@ -36,7 +35,7 @@ class SiteCrawler:
 
         if q.count() == 0:
             # site is new, init obj
-            self.site = Site(actor=self.actor,url=self.url)
+            self.site = Site(actor=self.actor, url=self.url)
             self.session.add(self.site)
             self.session.commit()
         else:
@@ -44,9 +43,9 @@ class SiteCrawler:
             self.site = q.first()
 
         # check if site is up
-        self.is_up = self.site_is_up()
+        self.is_up = self.is_site_up()
 
-    def site_is_up(self) -> bool:
+    def is_site_up(self) -> bool:
         """
         check if the site is up
 
@@ -57,9 +56,9 @@ class SiteCrawler:
             try:
                 r = p.get(self.url, headers=self.headers, timeout=20)
 
-                if r.status_code < 400:
+                if r.status_code >= 400:
                     return False
-            except:
+            except Exception as e:
                 return False
 
         return True

@@ -1,3 +1,4 @@
+import logging
 import socket
 import time
 from typing import Union
@@ -5,6 +6,7 @@ from typing import Union
 import requests
 from stem import Signal
 from stem.control import Controller
+from stem.util.log import get_logger
 
 class Proxy:
     controller: Union[Controller, None]
@@ -24,6 +26,9 @@ class Proxy:
 
         self.controller = None
         self.ip = ""
+
+        logger = get_logger()
+        logger.level = logging.WARNING
     
     def __enter__(self):
         self.connect()

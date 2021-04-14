@@ -1,6 +1,7 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 
 from .database import engine
 
@@ -12,9 +13,9 @@ class Site(Base):
     id = Column(Integer, primary_key=True)
     actor = Column(String)
     url = Column(String)
-    first_scanned = Column(DateTime)
-    # last_scanned = Column(DateTime)
-    last_up = Column(DateTime)
+    added = Column(DateTime(timezone=True), server_default=func.now())
+    last_scanned = Column(DateTime(timezone=True))
+    last_up = Column(DateTime(timezone=True))
 
     def __repr__(self):
         return f"<Site {self.actor}>"
@@ -25,9 +26,9 @@ class Victim(Base):
     id = Column(Integer, primary_key=True)
     org = Column(String)
     url = Column(String)
-    published = Column(DateTime)
-    first_seen = Column(DateTime)
-    last_seen = Column(DateTime)
+    published = Column(DateTime(timezone=True))
+    first_seen = Column(DateTime(timezone=True))
+    last_seen = Column(DateTime(timezone=True))
 
     site_id = Column(Integer, ForeignKey("sites.id"))
     site = relationship("Site")

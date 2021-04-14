@@ -60,6 +60,10 @@ def main(argv):
 
         logging.info(f"Scraping victims")
         s.scrape_victims()
+
+        logging.info(f"Finished {site.actor}")
+
+    logging.info("Finished all sites, exiting")
     
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
