@@ -6,3 +6,7 @@ Ransomware leak site monitoring
 - Scrape the full site
 - See if there are new leaks
 - See if any leaks were removed
+
+need to set docker-compose volume for sqlite db, set in `RW_DB_PATH` env var
+
+notify via slack/webhook whatever when a new leak is posted

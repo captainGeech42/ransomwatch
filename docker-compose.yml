@@ -6,9 +6,10 @@ services:
     depends_on:
       - proxy
     volumes:
-      - ./dataset:/dataset
+      - ./db_vol:/db
     environment:
       PYTHONUNBUFFERED: 1
+      RW_DB_PATH: /db/ransomwatch.db
 
   proxy:
     build:

@@ -12,17 +12,20 @@ class Site(Base):
     id = Column(Integer, primary_key=True)
     actor = Column(String)
     url = Column(String)
+    first_scanned = Column(DateTime)
+    # last_scanned = Column(DateTime)
     last_up = Column(DateTime)
 
     def __repr__(self):
         return f"<Site {self.actor}>"
 
-class Leak(Base):
+class Victim(Base):
     __tablename__ = "leaks"
 
     id = Column(Integer, primary_key=True)
     org = Column(String)
     url = Column(String)
+    published = Column(DateTime)
     first_seen = Column(DateTime)
     last_seen = Column(DateTime)
 
@@ -30,6 +33,8 @@ class Leak(Base):
     site = relationship("Site")
 
     def __repr__(self):
-        return f"<Leak {self.org}>"
+        return f"<Victim {self.org} by {self.site.actor}>"
+
+Site.victims = relationship("Victim", order_by=Victim.id, back_populates="site")
 
 Base.metadata.create_all(engine)

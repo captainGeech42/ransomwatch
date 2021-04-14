@@ -1,15 +1,9 @@
-import base64
-from datetime import datetime
 import logging
 import sys
-import time
-
-from bs4 import BeautifulSoup
-
-from net.proxy import Proxy
 
 from db.database import Session
-from db.models import Site, Leak
+from db.models import Site, Victim
+import sites
 
 logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -21,25 +15,51 @@ logging.basicConfig(
     ]
 )
 
-def print_ip():
-    with Proxy() as p:
-        print(p.get("http://icanhazip.com").content.decode().strip())
+defang = lambda u: u.replace("http", "hxxp").replace(".onion", "[.]onion")
 
-def main(argv):
-    s1 = Site(actor="site1", url="http://site1.onion")
-    print(s1)
+def test():
+    # s1 = Site(actor="site2", url="http://site1.onion")
+    # print(s1)
 
-    l1 = Leak(org="org1", url="asdf/org1", first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=s1)
-    print(l1)
-    print(l1.site)
+    # v1 = Victim(org="org1", url="asdf/org1", first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=s1)
+    # print(v1)
+    # print(v1.site)
 
     session = Session()
+    # print(type(session))
 
-    session.add(s1)
-    session.add(l1)
-    session.commit()
 
-    return 0
+
+    # session.add(s1)
+    # session.add(v1)
+    # session.commit()
+
+    s1 = session.query(Site).filter_by(actor="site2").first()
+    print(s1)
+    print(type(s1))
+
+    print(s1.victims)
+
+def main(argv):
+    logging.info("Initializing")
+
+    sites_to_analyze = [
+        sites.conti.Conti
+    ]
+
+    logging.info(f"Found {len(sites_to_analyze)} sites")
+
+    for site in sites_to_analyze:
+        logging.info(f"Starting scraping on {site.actor} ({defang(site.url)})")
+
+        s = site()
+
+        if not s.is_up:
+            logging.warning(f"{site.actor} is down, skipping")
+            continue
+
+        logging.info(f"Scraping victims")
+        s.scrape_victims()
     
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
