@@ -21,11 +21,11 @@ class Site(Base):
         return f"<Site {self.actor}>"
 
 class Victim(Base):
-    __tablename__ = "leaks"
+    __tablename__ = "victims"
 
     id = Column(Integer, primary_key=True)
     org = Column(String)
-    url = Column(String)
+    url = Column(String, unique=True)
     published = Column(DateTime(timezone=True))
     first_seen = Column(DateTime(timezone=True))
     last_seen = Column(DateTime(timezone=True))

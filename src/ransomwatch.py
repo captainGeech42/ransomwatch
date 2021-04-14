@@ -18,27 +18,11 @@ logging.basicConfig(
 defang = lambda u: u.replace("http", "hxxp").replace(".onion", "[.]onion")
 
 def test():
-    # s1 = Site(actor="site2", url="http://site1.onion")
-    # print(s1)
-
-    # v1 = Victim(org="org1", url="asdf/org1", first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=s1)
-    # print(v1)
-    # print(v1.site)
-
     session = Session()
-    # print(type(session))
 
+    site = session.query(Site).filter_by(actor="Conti").first()
 
-
-    # session.add(s1)
-    # session.add(v1)
-    # session.commit()
-
-    s1 = session.query(Site).filter_by(actor="site2").first()
-    print(s1)
-    print(type(s1))
-
-    print(s1.victims)
+    q = session.query(Victim).filter_by(site=site).all()
 
 def main(argv):
     logging.info("Initializing")
@@ -53,6 +37,9 @@ def main(argv):
         logging.info(f"Starting scraping on {site.actor} ({defang(site.url)})")
 
         s = site()
+        
+        if s.first_run:
+            logging.info(f"This is the first scrape for {site.actor}")
 
         if not s.is_up:
             logging.warning(f"{site.actor} is down, skipping")
@@ -61,9 +48,16 @@ def main(argv):
         logging.info(f"Scraping victims")
         s.scrape_victims()
 
+        logging.info(f"There are {len(s.new_victims)} new victims")
+        
+        logging.info(f"Identifying removed victims")
+        removed = s.identify_removed_victims()
+        logging.info(f"There are {len(removed)} removed victims")
+
         logging.info(f"Finished {site.actor}")
 
     logging.info("Finished all sites, exiting")
     
 if __name__ == "__main__":
+    # test()
     sys.exit(main(sys.argv))

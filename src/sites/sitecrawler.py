@@ -3,16 +3,34 @@ from typing import Dict, List
 from sqlalchemy.orm.session import Session as SessionType
 
 from db.database import Session
-from db.models import Site
+from db.models import Site, Victim
 from net.proxy import Proxy
 
 class SiteCrawler:
+    # threat actor associated with the leak site
     actor: str = ""
+
+    # url for the leak site
     url: str = ""
-    current_victims: List[str] = []
+
+    # list of victims on the leak site from current scrape
+    current_victims: List[Victim] = []
+
+    # new victims on the leak site from current scrape
+    new_victims: List[Victim] = []
+
+    # is the site up? set by is_site_up()
     is_up: bool = False
+
+    # db session, set in __init__()
     session: SessionType
+
+    # site object from db, set in __init__()
     site: Site
+
+    # is this the first ingest of the site? set in __init__()
+    # if the first run, don't notify on new victims (b/c they are all "new")
+    first_run: bool = False
     
     headers: Dict[str, str] = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0"
@@ -38,6 +56,7 @@ class SiteCrawler:
             self.site = Site(actor=self.actor, url=self.url)
             self.session.add(self.site)
             self.session.commit()
+            self.first_run = True
         else:
             # site exists, set obj
             self.site = q.first()
@@ -71,12 +90,21 @@ class SiteCrawler:
             if it isn't, add it to the db
 
         store each org name in a list (self.current_victims)
+
+        this also sets self.new_victims, which has new victims to notify with
         """
         pass
 
-    def identify_removed_victims(self):
+    def identify_removed_victims(self) -> List[Victim]:
         """
         check org name list against db
             if something is in the db and not in the list, alert
         """
-        pass
+        db_victims = self.session.query(Victim).filter_by(site=self.site).all()
+        
+        victims = self.current_victims.copy()
+        
+        for v in db_victims:
+            victims.remove(v)
+
+        return victims
