@@ -1,0 +1,9 @@
+---
+# key-value mapping of actor-leak site URL
+sites:
+  conti: http://something.onion
+
+# slack webhooks
+slack:
+  workspace1: https://hooks.slack.com/services/something/goes/here
+  workspace2: https://hooks.slack.com/services/something/else/goes/here
