@@ -2,6 +2,7 @@
 # key-value mapping of actor-leak site URL
 sites:
   conti: http://something.onion
+  sodinokibi: http://something.onion
 
 # slack webhooks
 slack:

@@ -30,7 +30,8 @@ def main(argv):
     logging.info("Initializing")
 
     sites_to_analyze = [
-        sites.conti.Conti
+        sites.Conti,
+        sites.Sodinokibi
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
@@ -40,6 +41,7 @@ def main(argv):
 
         if site.actor.lower() not in Config["sites"]:
             logging.warning(f"No URL found in config for this actor, skipping")
+            continue
 
         s = site(Config["sites"][site.actor.lower()])
         

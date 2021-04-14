@@ -6,6 +6,8 @@ from db.models import Victim
 
 class SlackNotification():
     def send_new_victim_notification(url: str, victim: Victim) -> bool:
+        published_ts = datetime.strftime(victim.published, '%b %d, %Y') if victim.published is not None else "N/A"
+
         body = {
         	"blocks": [
         		{
@@ -28,7 +30,7 @@ class SlackNotification():
         				},
 				        {
 				        	"type": "mrkdwn",
-				        	"text": f"*Published Date:*\n{datetime.strftime(victim.published, '%b %d, %Y')}"
+				        	"text": f"*Published Date:*\n{published_ts}"
 				        },
 				        {
 				        	"type": "mrkdwn",
@@ -60,6 +62,8 @@ class SlackNotification():
         return True
     
     def send_victim_removed_notification(url: str, victim: Victim) -> bool:
+        published_ts = datetime.strftime(victim.published, '%b %d, %Y') if victim.published is not None else "N/A"
+
         body = {
         	"blocks": [
         		{
@@ -82,7 +86,7 @@ class SlackNotification():
         				},
 				        {
 				        	"type": "mrkdwn",
-				        	"text": f"*Date Originally Published:*\n{datetime.strftime(victim.published, '%b %d, %Y')}"
+				        	"text": f"*Date Originally Published:*\n{published_ts}"
 				        },
 				        {
 				        	"type": "mrkdwn",

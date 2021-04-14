@@ -34,8 +34,8 @@ The following leak sites are (planned to be) supported:
 - [x] Conti
 - [ ] MAZE
 - [ ] Egregor
-- [ ] Sodinokibi/REvil
-- [ ] DoppelPaymer
+- [X] Sodinokibi/REvil
+- [ ] DoppelPaymer (captcha, prob won't be supported for a while)
 - [ ] NetWalker
 - [ ] Pysa
 - [ ] Avaddon
@@ -54,3 +54,5 @@ The following leak sites are (planned to be) supported:
 - [ ] Astro Team
 - [ ] Ranzy Locker
 - [ ] LV
+
+If there are other leak sites you want implemented, feel free to open a PR or DM me on Twitter, [@captainGeech42](https://twitter.com/captainGeech42)

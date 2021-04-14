@@ -26,7 +26,7 @@ class Victim(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     url = Column(String, unique=True)
-    published = Column(DateTime(timezone=True))
+    published = Column(DateTime(timezone=True), nullable=True)
     first_seen = Column(DateTime(timezone=True))
     last_seen = Column(DateTime(timezone=True))
     removed = Column(Boolean, default=False)
