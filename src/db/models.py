@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -24,17 +24,18 @@ class Victim(Base):
     __tablename__ = "victims"
 
     id = Column(Integer, primary_key=True)
-    org = Column(String)
+    name = Column(String)
     url = Column(String, unique=True)
     published = Column(DateTime(timezone=True))
     first_seen = Column(DateTime(timezone=True))
     last_seen = Column(DateTime(timezone=True))
+    removed = Column(Boolean, default=False)
 
     site_id = Column(Integer, ForeignKey("sites.id"))
     site = relationship("Site")
 
     def __repr__(self):
-        return f"<Victim {self.org} by {self.site.actor}>"
+        return f"<Victim {self.name} by {self.site.actor}>"
 
 Site.victims = relationship("Victim", order_by=Victim.id, back_populates="site")
 

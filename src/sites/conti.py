@@ -1,6 +1,5 @@
 from datetime import datetime
 import logging
-from typing import List
 
 from bs4 import BeautifulSoup
 
@@ -33,7 +32,7 @@ class Conti(SiteCrawler):
 
             if q.count() == 0:
                 # new org
-                v = Victim(org=name, url=url, published=published_dt, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
+                v = Victim(name=name, url=url, published=published_dt, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
                 self.session.add(v)
                 self.new_victims.append(v)
             else:

@@ -56,20 +56,24 @@ def main(argv):
         logging.info(f"There are {len(s.new_victims)} new victims")
 
         # send notifications for new victims
-        for v in s.new_victims:
-            for workspace, slack_url in Config["slack"].items():
-                if not SlackNotification.send_new_victim_notification(slack_url, v):
-                    logging.error(f"Failed to send Slack notification to {workspace}")
+        if not s.first_run and len(s.new_victims) > 0:
+            logging.info("Notifying for new victims")
+            for v in s.new_victims:
+                for workspace, slack_url in Config["slack"].items():
+                    if not SlackNotification.send_new_victim_notification(slack_url, v):
+                        logging.error(f"Failed to send Slack notification to {workspace}")
         
         logging.info(f"Identifying removed victims")
         removed = s.identify_removed_victims()
         logging.info(f"There are {len(removed)} removed victims")
 
         # send notifications for removed victims
-        for v in removed:
-            for workspace, slack_url in Config["slack"].items():
-                if not SlackNotification.send_victim_removed_notification(slack_url, v):
-                    logging.error(f"Failed to send Slack notification to {workspace}")
+        if not s.first_run and len(removed) > 0:
+            logging.info("Notifying for removed victims")
+            for v in removed:
+                for workspace, slack_url in Config["slack"].items():
+                    if not SlackNotification.send_victim_removed_notification(slack_url, v):
+                        logging.error(f"Failed to send Slack notification to {workspace}")
 
         logging.info(f"Finished {site.actor}")
 

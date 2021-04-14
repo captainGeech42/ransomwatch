@@ -24,7 +24,7 @@ class SlackNotification():
         				},
         				{
         					"type": "mrkdwn",
-        					"text": f"*Organization:*\n{victim.org}"
+        					"text": f"*Organization:*\n{victim.name}"
         				},
 				        {
 				        	"type": "mrkdwn",
@@ -78,7 +78,7 @@ class SlackNotification():
         				},
         				{
         					"type": "mrkdwn",
-        					"text": f"*Organization:*\n{victim.org}"
+        					"text": f"*Organization:*\n{victim.name}"
         				},
 				        {
 				        	"type": "mrkdwn",

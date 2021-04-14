@@ -99,13 +99,20 @@ class SiteCrawler:
     def identify_removed_victims(self) -> List[Victim]:
         """
         check org name list against db
-            if something is in the db and not in the list, alert
+            if something is in the db, not already removed, and not in the list, alert
         """
-        db_victims = self.session.query(Victim).filter_by(site=self.site).all()
-        
-        victims = self.current_victims.copy()
-        
-        for v in db_victims:
+        # get the current victims from the last scrape
+        victims = self.session.query(Victim).filter_by(site=self.site, removed=False).all()
+
+        # remove anything from the last scrape that was also in this scrape
+        # the remaining set is things that were present last time, but not this time
+        for v in self.current_victims:
             victims.remove(v)
+
+        # mark the victims as removed, since they are no longer on the leak site
+        for v in victims:
+            v.removed = True
+
+        self.session.commit()
 
         return victims
