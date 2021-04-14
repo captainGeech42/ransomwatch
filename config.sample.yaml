@@ -3,6 +3,7 @@
 sites:
   conti: http://something.onion
   sodinokibi: http://something.onion
+  avaddon: http://something.onion
 
 # slack webhooks
 slack:

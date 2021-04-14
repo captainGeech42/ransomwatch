@@ -39,7 +39,7 @@ The following leak sites are (planned to be) supported:
 - [ ] DoppelPaymer (captcha, prob won't be supported for a while)
 - [ ] NetWalker
 - [ ] Pysa
-- [ ] Avaddon
+- [X] Avaddon
 - [ ] DarkSide
 - [ ] CL0P
 - [ ] Nefilim

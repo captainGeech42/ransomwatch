@@ -2,9 +2,7 @@ import logging
 import sys
 
 from config import Config
-from db.database import Session
-from db.models import Site, Victim
-from net.slack import SlackNotification
+from net import SlackNotification
 import sites
 
 logging.basicConfig(
@@ -19,19 +17,13 @@ logging.basicConfig(
 
 defang = lambda u: u.replace("http", "hxxp").replace(".onion", "[.]onion")
 
-def test():
-    session = Session()
-
-    site = session.query(Site).filter_by(actor="Conti").first()
-
-    q = session.query(Victim).filter_by(site=site).all()
-
 def main(argv):
     logging.info("Initializing")
 
     sites_to_analyze = [
         sites.Conti,
-        sites.Sodinokibi
+        sites.Sodinokibi,
+        sites.Avaddon
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
@@ -82,5 +74,4 @@ def main(argv):
     logging.info("Finished all sites, exiting")
     
 if __name__ == "__main__":
-    # test()
     sys.exit(main(sys.argv))
