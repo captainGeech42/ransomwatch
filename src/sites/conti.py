@@ -17,10 +17,10 @@ class Conti(SiteCrawler):
 
         for div in victim_divs:
             # parse all the stuff out of the html
-            name = div.find("div", class_="title").text[1:-1]
+            name = div.find("div", class_="title").text[1:-1].strip()
 
             footer_div = div.find("div", class_="footer")
-            published = footer_div.find("div")
+            published = footer_div.find("div").strip()
             published_dt = datetime.strptime(published.text, "%B %d, %Y")
 
             url = self.url + footer_div.find_all("div")[-1].find("a").attrs["href"]

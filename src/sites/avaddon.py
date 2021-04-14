@@ -17,7 +17,7 @@ class Avaddon(SiteCrawler):
 
         for div in victim_divs:
             # parse all the stuff out of the html
-            name = div.find("h3").text
+            name = div.find("h3").text.split("\n")[0].strip()
 
             url = div.find_all("div")[-1].find("a").attrs["href"]
 
