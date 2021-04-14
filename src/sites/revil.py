@@ -7,8 +7,8 @@ from db.models import Victim
 from net.proxy import Proxy
 from .sitecrawler import SiteCrawler
 
-class Sodinokibi(SiteCrawler):
-    actor = "Sodinokibi"
+class REvil(SiteCrawler):
+    actor = "REvil"
     
     def _handle_page(self, body: str):
         soup = BeautifulSoup(body, "html.parser")
@@ -21,9 +21,7 @@ class Sodinokibi(SiteCrawler):
             child_div = parent_div.find("div")
 
             title_link = child_div.find("h2").find("a")
-            name = title_link.text
-
-            footer_div = div.find("div", class_="footer")
+            name = title_link.text.strip()
 
             url = self.url + title_link.attrs["href"]
 
