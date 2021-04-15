@@ -24,3 +24,8 @@ slack:
     url: https://hooks.slack.com/services/something/else/goes/here
     down_sites: true
     errors: false
+
+# how many seconds to wait for a connection
+# this is used to check if the site is up, and doesn't wait
+# for the full page data to be downloaded
+timeout: 30

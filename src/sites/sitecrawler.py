@@ -3,6 +3,7 @@ from typing import Dict, List
 
 from sqlalchemy.orm.session import Session as SessionType
 
+from config import Config
 from db.database import Session
 from db.models import Site, Victim
 from net.proxy import Proxy
@@ -79,7 +80,7 @@ class SiteCrawler:
 
         with Proxy() as p:
             try:
-                r = p.get(self.url, headers=self.headers, timeout=20)
+                r = p.get(self.url, headers=self.headers, timeout=Config["timeout"])
 
                 if r.status_code >= 400:
                     return False
