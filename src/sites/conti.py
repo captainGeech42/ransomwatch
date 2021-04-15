@@ -67,5 +67,7 @@ class Conti(SiteCrawler):
             r = p.get(f"{self.url}/page/{max_page_num+1}", headers=self.headers)
             self._handle_page(r.content.decode())
 
+        self.site.last_scraped = datetime.utcnow()
+
         # just for good measure
         self.session.commit()

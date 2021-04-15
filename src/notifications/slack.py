@@ -125,7 +125,7 @@ class SlackNotification(NotificationSource):
         return SlackNotification._post_webhook(body, url)
 
     def send_site_down_notification(url: str, site: Site) -> bool:
-        last_up_ts = datetime.strftime(site.last_up, '%b %d, %Y') if site.last_up is not None else "N/A"
+        last_up_ts = datetime.strftime(site.last_up, '%b %d, %Y at %H:%M:%S UTC') if site.last_up is not None else "N/A"
 
         body = {
             "attachments": [
@@ -149,10 +149,6 @@ class SlackNotification(NotificationSource):
                                 {
                                     "type": "mrkdwn",
                                     "text": f"*Last Up:*\n{last_up_ts}"
-                                },
-                                {
-                                    "type": "mrkdwn",
-                                    "text": f"<{site.url}|View Leak Site>"
                                 }
                             ]
                         },

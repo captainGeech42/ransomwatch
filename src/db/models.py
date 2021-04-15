@@ -14,8 +14,8 @@ class Site(Base):
     actor = Column(String)
     url = Column(String)
     added = Column(DateTime(timezone=True), server_default=func.now())
-    last_scanned = Column(DateTime(timezone=True), nullable=True)
-    last_up = Column(DateTime(timezone=True), nullable=True)
+    last_scraped = Column(DateTime(timezone=True), nullable=True, default=None)
+    last_up = Column(DateTime(timezone=True), nullable=True, default=None)
 
     def __repr__(self):
         return f"<Site {self.actor}>"

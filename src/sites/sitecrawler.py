@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, List
 
 from sqlalchemy.orm.session import Session as SessionType
@@ -62,6 +63,10 @@ class SiteCrawler:
             # site exists, set obj
             self.site = q.first()
 
+            # if we haven't successfully scraped the site before, consider this the first run
+            if self.site.last_scraped is None:
+                self.first_run = True
+
         # check if site is up
         self.is_up = self.is_site_up()
 
@@ -80,6 +85,10 @@ class SiteCrawler:
                     return False
             except Exception as e:
                 return False
+
+        self.site.last_up = datetime.utcnow()
+
+        self.session.commit()
 
         return True
 

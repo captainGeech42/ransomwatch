@@ -75,3 +75,6 @@ class Avaddon(SiteCrawler):
 
         for p in pages:
             self._handle_page_type(p)
+        
+        self.site.last_scraped = datetime.utcnow()
+        self.session.commit()
