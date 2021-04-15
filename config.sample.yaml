@@ -8,5 +8,19 @@ sites:
 
 # slack webhooks
 slack:
-  workspace1: https://hooks.slack.com/services/something/goes/here
-  workspace2: https://hooks.slack.com/services/something/else/goes/here
+  workspace1: 
+    # url for the webhook
+    url: https://hooks.slack.com/services/something/goes/here
+
+    # should notifications be sent to this webhook if a site is detected as down?
+    down_sites: true
+
+    # should errors be sent to this webook?
+    errors: true
+
+    # may in the future add support for not sending leak site links
+    # if you actively want this, open an issue (or make a PR)
+  workspace2:
+    url: https://hooks.slack.com/services/something/else/goes/here
+    down_sites: true
+    errors: false

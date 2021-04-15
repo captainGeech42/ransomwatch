@@ -94,7 +94,7 @@ class SiteCrawler:
 
         this also sets self.new_victims, which has new victims to notify with
         """
-        pass
+        raise Exception("Function implementation not found")
 
     def identify_removed_victims(self) -> List[Victim]:
         """

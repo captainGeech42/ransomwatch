@@ -36,6 +36,8 @@ This is an example of a Slack notification for a removed victim:
 
 ![Slack notification for new victim](/img/slack_example_removed_victim.png)
 
+Notifications are also sent to Slack when an exception is unhandled in the code, or when a site is down.
+
 ## Leak Site Implementations:
 
 The following leak sites are (planned to be) supported:

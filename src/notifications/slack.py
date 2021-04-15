@@ -3,10 +3,10 @@ import logging
 import requests
 from typing import Dict
 
-from db.models import Victim
+from db.models import Site, Victim
+from .source import NotificationSource
 
-
-class SlackNotification():
+class SlackNotification(NotificationSource):
     def _post_webhook(body: Dict, url: str) -> bool:
         r = requests.post(url, json=body)
         if r.status_code != 200:
@@ -123,6 +123,9 @@ class SlackNotification():
         }
 
         return SlackNotification._post_webhook(body, url)
+
+    def send_site_down_notification(url: str, site: Site) -> bool:
+        return True
 
     def send_error_notification(url: str, context: str, error: str, fatal: bool = False) -> bool:
         body = {

@@ -3,7 +3,7 @@ import sys
 import traceback
 
 from config import Config
-from net import SlackNotification
+from notifications import NotificationManager
 import sites
 
 logging.basicConfig(
@@ -54,10 +54,8 @@ def main(argv):
 
             tb = traceback.format_exc()
 
-            # send slack error notifications
-            for workspace, slack_url in Config["slack"].items():
-                if not SlackNotification.send_error_notification(slack_url, f"{site.actor} scraping", tb):
-                    logging.error(f"Failed to send Slack notification to {workspace}")
+            # send error notifications
+            NotificationManager.send_error_notification(f"{site.actor} scraping", tb)
 
             # log exception
             logging.error(tb.strip()) # there is a trailing newline
@@ -71,9 +69,7 @@ def main(argv):
         if not s.first_run and len(s.new_victims) > 0:
             logging.info("Notifying for new victims")
             for v in s.new_victims:
-                for workspace, slack_url in Config["slack"].items():
-                    if not SlackNotification.send_new_victim_notification(slack_url, v):
-                        logging.error(f"Failed to send Slack notification to {workspace}")
+                NotificationManager.send_new_victim_notification(v)
         
         logging.info(f"Identifying removed victims")
         removed = s.identify_removed_victims()
@@ -83,9 +79,7 @@ def main(argv):
         if not s.first_run and len(removed) > 0:
             logging.info("Notifying for removed victims")
             for v in removed:
-                for workspace, slack_url in Config["slack"].items():
-                    if not SlackNotification.send_victim_removed_notification(slack_url, v):
-                        logging.error(f"Failed to send Slack notification to {workspace}")
+                NotificationManager.send_victim_removed_notification(v)
 
         logging.info(f"Finished {site.actor}")
 
@@ -100,9 +94,7 @@ if __name__ == "__main__":
         tb = traceback.format_exc()
 
         # send slack error notifications
-        for workspace, slack_url in Config["slack"].items():
-            if not SlackNotification.send_error_notification(slack_url, f"Non-scraping failure", tb, fatal=True):
-                logging.error(f"Failed to send Slack notification to {workspace}")
+        NotificationManager.send_error_notification(f"Non-scraping failure", tb, fatal=True)
 
         # log exception
         logging.error(tb.strip()) # there is a trailing newline
