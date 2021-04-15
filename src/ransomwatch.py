@@ -38,14 +38,14 @@ def main(argv):
             continue
 
         s = site(Config["sites"][site.actor.lower()])
-        
-        if s.first_run:
-            logging.info(f"This is the first scrape for {site.actor}")
 
         if not s.is_up:
             logging.warning(f"{site.actor} is down, notifying + skipping")
             NotificationManager.send_site_down_notification(s.site)
             continue
+        
+        if s.first_run:
+            logging.info(f"This is the first scrape for {site.actor}, no victim notifications will be sent")
 
         logging.info(f"Scraping victims")
         try:
