@@ -77,6 +77,7 @@ def main(argv):
         logging.info(f"There are {len(removed)} removed victims")
 
         # send notifications for removed victims
+        NotificationManager.send_victim_removed_notification(s.current_victims[0])
         if not s.first_run and len(removed) > 0:
             logging.info("Notifying for removed victims")
             for v in removed:
