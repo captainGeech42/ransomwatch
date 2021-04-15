@@ -1,6 +1,6 @@
 # RansomWatch
 
-_(NOTE: RansomWatch is actively being developed, and isn't suitable for prod, *yet*)_
+_(NOTE: RansomWatch is actively being developed, and isn't suitable for prod, **yet**)_
 
 RansomWatch is a ransomware leak site monitoring tool. It will scrap all of the entries on various ransomware leak sites, store the data in a SQLite database, and send notifications via Slack when a new victim shows up, or when a victim is removed.
 
