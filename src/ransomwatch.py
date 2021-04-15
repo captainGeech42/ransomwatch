@@ -1,5 +1,6 @@
 import logging
 import sys
+import traceback
 
 from config import Config
 from net import SlackNotification
@@ -46,7 +47,23 @@ def main(argv):
             continue
 
         logging.info(f"Scraping victims")
-        s.scrape_victims()
+        try:
+            s.scrape_victims()
+        except:
+            logging.error(f"Got an error while scraping {site.actor}, notifying")
+
+            tb = traceback.format_exc()
+
+            # send slack error notifications
+            for workspace, slack_url in Config["slack"].items():
+                if not SlackNotification.send_error_notification(slack_url, f"{site.actor} scraping", tb):
+                    logging.error(f"Failed to send Slack notification to {workspace}")
+
+            # log exception
+            logging.error(tb.strip()) # there is a trailing newline
+
+            # skip the rest of the site since the data may be messed up
+            continue
 
         logging.info(f"There are {len(s.new_victims)} new victims")
 
@@ -75,4 +92,17 @@ def main(argv):
     logging.info("Finished all sites, exiting")
     
 if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    try:
+        main(sys.argv)
+    except:
+        logging.error(f"Got a fatal error, notifying + aborting")
+
+        tb = traceback.format_exc()
+
+        # send slack error notifications
+        for workspace, slack_url in Config["slack"].items():
+            if not SlackNotification.send_error_notification(slack_url, f"Non-scraping failure", tb, fatal=True):
+                logging.error(f"Failed to send Slack notification to {workspace}")
+
+        # log exception
+        logging.error(tb.strip()) # there is a trailing newline

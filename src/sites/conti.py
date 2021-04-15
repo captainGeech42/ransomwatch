@@ -20,8 +20,8 @@ class Conti(SiteCrawler):
             name = div.find("div", class_="title").text[1:-1].strip()
 
             footer_div = div.find("div", class_="footer")
-            published = footer_div.find("div").strip()
-            published_dt = datetime.strptime(published.text, "%B %d, %Y")
+            published = footer_div.find("div")
+            published_dt = datetime.strptime(published.text.strip(), "%B %d, %Y")
 
             url = self.url + footer_div.find_all("div")[-1].find("a").attrs["href"]
 
