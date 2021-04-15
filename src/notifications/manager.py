@@ -14,7 +14,7 @@ class NotificationManager():
     def send_victim_removed_notification(victim: Victim):
         for workspace, params in Config["slack"].items():
             # deliberately don't break out of the loop if one fails, continue trying the others
-            if not SlackNotification.send_new_victim_notification(params["url"], victim):
+            if not SlackNotification.send_victim_removed_notification(params["url"], victim):
                 logging.error(f"Failed to send removed victim notification to Slack workspace \"{workspace}\"")
     
     def send_site_down_notification(site: Site):

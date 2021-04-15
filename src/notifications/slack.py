@@ -78,7 +78,7 @@ class SlackNotification(NotificationSource):
         body = {
             "attachments": [
                 {
-                    "color": "#03a1fc",
+                    "color": "#f5ad27",
                     "blocks": [
                         {
                             "type": "header",
