@@ -2,7 +2,7 @@
 
 Ransomware leak site monitoring tool. It will scrap all of the entries on various ransomware leak sites, store the data in a SQLite database, and send notifications via Slack when a new victim shows up, or when a victim is removed.
 
-## Configuration:
+## Configuration
 
 Please copy `config.sample.yaml` to `config.yaml`, and add the following:
 
@@ -16,7 +16,7 @@ Additionally, there are a few environment variables you may need to set:
 
 These are both set in the provided `docker-compose.yaml`. If you prefer, you can modify the `Dockerfile` and use a volume to provide the `config.yaml` if you don't want to bake it in.
 
-## Usage:
+## Usage
 
 This is intended to be run via a cronjob on whatever increment you decide to use.
 
@@ -28,17 +28,26 @@ Example crontab entry (running every 8 hours):
 
 (make sure to build it first, `docker-compose build`)
 
-This is an example of a Slack notification for a new victim:
+## Example Slack Messages
+
+New victim:
 
 ![Slack notification for new victim](/img/slack_example_new_victim.png)
 
-This is an example of a Slack notification for a removed victim:
+Removed victim:
 
-![Slack notification for new victim](/img/slack_example_removed_victim.png)
+![Slack notification for removed victim](/img/slack_example_removed_victim.png)
 
-Notifications are also sent to Slack when an exception is unhandled in the code, or when a site is down.
+Site down:
 
-## Leak Site Implementations:
+![Slack notification for site down](/img/slack_example_site_down.png)
+
+Error:
+
+![Slack notification for an error](/img/slack_example_error.png)
+
+
+## Leak Site Implementations
 
 The following leak sites are (planned to be) supported:
 
