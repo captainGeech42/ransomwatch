@@ -125,7 +125,52 @@ class SlackNotification(NotificationSource):
         return SlackNotification._post_webhook(body, url)
 
     def send_site_down_notification(url: str, site: Site) -> bool:
-        return True
+        last_up_ts = datetime.strftime(site.last_up, '%b %d, %Y') if site.last_up is not None else "N/A"
+
+        body = {
+            "attachments": [
+                {
+                    "color": "#fcc203",
+                    "blocks": [
+                        {
+                            "type": "header",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Site Down"
+                            }
+                        },
+                        {
+                            "type": "section",
+                            "fields": [
+                                {
+                                    "type": "mrkdwn",
+                                    "text": f"*Actor:*\n{site.actor}"
+                                },
+                                {
+                                    "type": "mrkdwn",
+                                    "text": f"*Last Up:*\n{last_up_ts}"
+                                },
+                                {
+                                    "type": "mrkdwn",
+                                    "text": f"<{site.url}|View Leak Site>"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "section",
+                            "fields": [
+                                {
+                                    "type": "mrkdwn",
+                                    "text": f"<{site.url}|View Leak Site>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+
+        return SlackNotification._post_webhook(body, url)
 
     def send_error_notification(url: str, context: str, error: str, fatal: bool = False) -> bool:
         body = {

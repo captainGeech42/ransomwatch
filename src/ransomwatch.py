@@ -43,7 +43,8 @@ def main(argv):
             logging.info(f"This is the first scrape for {site.actor}")
 
         if not s.is_up:
-            logging.warning(f"{site.actor} is down, skipping")
+            logging.warning(f"{site.actor} is down, notifying + skipping")
+            NotificationManager.send_site_down_notification(s.site)
             continue
 
         logging.info(f"Scraping victims")
