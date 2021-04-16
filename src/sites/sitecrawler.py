@@ -48,6 +48,9 @@ class SiteCrawler:
         # this should be statically defined in child implementations of the class
         assert self.actor != ""
 
+        self.current_victims = []
+        self.new_victims = []
+
         self.url = url
 
         self.session = Session()
@@ -88,8 +91,6 @@ class SiteCrawler:
                 return False
 
         self.site.last_up = datetime.utcnow()
-
-        self.session.commit()
 
         return True
 
