@@ -24,7 +24,7 @@ def main(argv):
     sites_to_analyze = [
         sites.Avaddon,
         sites.Conti,
-        # sites.DarkSide,
+        sites.DarkSide,
         sites.REvil
     ]
 

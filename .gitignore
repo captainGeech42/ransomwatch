@@ -2,3 +2,4 @@
 *.db
 /db_vol
 config.yaml
+test

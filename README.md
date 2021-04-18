@@ -61,7 +61,7 @@ The following leak sites are (planned to be) supported:
 - [ ] NetWalker
 - [ ] Pysa
 - [X] Avaddon
-- [ ] DarkSide
+- [X] DarkSide
 - [ ] CL0P
 - [ ] Nefilim
 - [ ] Everest
