@@ -8,6 +8,8 @@ from stem import Signal
 from stem.control import Controller
 from stem.util.log import get_logger
 
+from config import Config
+
 class Proxy:
     controller: Union[Controller, None]
     ip: str
@@ -18,11 +20,11 @@ class Proxy:
 
     session: requests.Session
 
-    def __init__(self, hostname: str = "proxy", socks_port: int = 9050, ctrl_port: int = 9051, password: str = "password"):
-        self.hostname = hostname 
-        self.socks_port = socks_port
-        self.ctrl_port = ctrl_port
-        self.password = password
+    def __init__(self):
+        self.hostname = Config["proxy"]["hostname"]
+        self.socks_port = Config["proxy"]["socks_port"]
+        self.ctrl_port = Config["proxy"]["control_port"]
+        self.password = Config["proxy"]["password"]
 
         self.controller = None
         self.ip = ""

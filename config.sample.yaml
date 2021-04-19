@@ -29,3 +29,19 @@ slack:
 # this is used to check if the site is up, and doesn't wait
 # for the full page data to be downloaded
 timeout: 30
+
+# tor proxy settings
+# the values set below are for the provided docker-compose.yml/Dockerfile.proxy
+# adjust for your own custom environment
+proxy:
+  # hostname for the proxy
+  hostname: proxy
+
+  # port for the SOCKS proxy
+  socks_port: 9050
+
+  # port for the tor control service
+  control_port: 9051
+
+  # password for the tor control service
+  password: password
