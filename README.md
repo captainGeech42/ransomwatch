@@ -2,21 +2,23 @@
 
 [![Build Image](https://github.com/captainGeech42/ransomwatch/workflows/Build%20Image/badge.svg)](https://github.com/captainGeech42/ransomwatch/actions?query=workflow%3A%22Build+Image%22) [![Docker Hub Publish](https://github.com/captainGeech42/ransomwatch/workflows/Docker%20Hub%20Publish/badge.svg)](https://github.com/captainGeech42/ransomwatch/actions?query=workflow%3A%22Docker+Hub+Publish%22) [![Docker Hub Image](https://img.shields.io/docker/v/captaingeech/ransomwatch?color=blue)](https://hub.docker.com/repository/docker/captaingeech/ransomwatch/general)
 
-RansomWatch is a ransomware leak site monitoring tool. It will scrape all of the entries on various ransomware leak sites, store the data in a SQLite database, and send notifications via Slack when a new victim shows up, or when a victim is removed.
+RansomWatch is a ransomware leak site monitoring tool. It will scrape all of the entries on various ransomware leak sites, store the data in a SQLite database, and send notifications via Slack or Discord when a new victim shows up, or when a victim is removed.
 
 ## Configuration
 
 In `config_vol/`, please copy `config.sample.yaml` to `config.yaml`, and add the following:
 
 * Leak site URLs. I decided not to make this list public in order to prevent them from gaining even more noteriety, so if you have them, add them in. If not, this tool isn't for you.
-* Slack webhook URLs. Follow [these](https://api.slack.com/messaging/webhooks) instructions to add a new app to your Slack workspace and add the webhook URL to the config.
+* Notification destinations. RansomWatch currently supports notifying via.the following:
+  * Slack: Follow [these](https://api.slack.com/messaging/webhooks) instructions to add a new app to your Slack workspace and add the webhook URL to the config.
+  * Discord: Follow [these](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) instructions to add a new app to your Discord server and add the webhook URL to the config.
 
 Additionally, there are a few environment variables you may need to set:
 
 * `RW_DB_PATH`: Path for the SQLite database to use
 * `RW_CONFIG_PATH`: Path to the `config.yaml` file
 
-These are both set in the provided `docker-compose.yaml`.
+These are both set in the provided `docker-compose.yml`.
 
 ## Usage
 
@@ -45,6 +47,8 @@ $ RW_DB_PATH=./db_vol/ransomwatch.db RW_CONFIG_PATH=./config_vol/config.yaml pyt
 ![Slack notification for site down](/img/slack_example_site_down.png)
 
 ![Slack notification for an error](/img/slack_example_error.png)
+
+The messages sent to Discord are very similar in style, identical in content.
 
 ## Leak Site Implementations
 

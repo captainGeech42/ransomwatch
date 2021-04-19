@@ -7,9 +7,13 @@ sites:
   darkside: http://something.onion
 
 # slack webhooks
-slack:
-  workspace1: 
-    # url for the webhook
+notifications:
+  dest1:
+    # type of notification
+    # valid options: slack, discord
+    type: slack
+
+    # url for the webhook (slack, discord)
     url: https://hooks.slack.com/services/something/goes/here
 
     # should new victim notifications be sent to this webhook?
@@ -26,8 +30,11 @@ slack:
 
     # may in the future add support for not sending leak site links
     # if you actively want this, open an issue (or make a PR)
-  workspace2:
+  dest2:
+    type: slack
     url: https://hooks.slack.com/services/something/else/goes/here
+    new_victims: true
+    removed_victims: true
     down_sites: true
     errors: false
 
