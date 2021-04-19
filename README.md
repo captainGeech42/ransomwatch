@@ -2,7 +2,7 @@
 
 [![Build Image](https://github.com/captainGeech42/ransomwatch/workflows/Build%20Image/badge.svg)](https://github.com/captainGeech42/ransomwatch/actions?query=workflow%3A%22Build+Image%22) [![Docker Hub Publish](https://github.com/captainGeech42/ransomwatch/workflows/Docker%20Hub%20Publish/badge.svg)](https://github.com/captainGeech42/ransomwatch/actions?query=workflow%3A%22Docker+Hub+Publish%22) [![Docker Hub Image](https://img.shields.io/docker/v/captaingeech/ransomwatch?color=blue)](https://hub.docker.com/repository/docker/captaingeech/ransomwatch/general)
 
-RansomWatch is a ransomware leak site monitoring tool. It will scrap all of the entries on various ransomware leak sites, store the data in a SQLite database, and send notifications via Slack when a new victim shows up, or when a victim is removed.
+RansomWatch is a ransomware leak site monitoring tool. It will scrape all of the entries on various ransomware leak sites, store the data in a SQLite database, and send notifications via Slack when a new victim shows up, or when a victim is removed.
 
 ## Configuration
 
