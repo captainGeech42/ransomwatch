@@ -38,22 +38,13 @@ $ RW_DB_PATH=./db_vol/ransomwatch.db RW_CONFIG_PATH=./config_vol/config.yaml pyt
 
 ## Example Slack Messages
 
-New victim:
-
 ![Slack notification for new victim](/img/slack_example_new_victim.png)
-
-Removed victim:
 
 ![Slack notification for removed victim](/img/slack_example_removed_victim.png)
 
-Site down:
-
 ![Slack notification for site down](/img/slack_example_site_down.png)
 
-Error:
-
 ![Slack notification for an error](/img/slack_example_error.png)
-
 
 ## Leak Site Implementations
 
