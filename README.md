@@ -4,7 +4,7 @@ RansomWatch is a ransomware leak site monitoring tool. It will scrap all of the 
 
 ## Configuration
 
-Please copy `config.sample.yaml` to `config.yaml`, and add the following:
+In `config_vol/`, please copy `config.sample.yaml` to `config.yaml`, and add the following:
 
 * Leak site URLs. I decided not to make this list public in order to prevent them from gaining even more noteriety, so if you have them, add them in. If not, this tool isn't for you.
 * Slack webhook URLs. Follow [these](https://api.slack.com/messaging/webhooks) instructions to add a new app to your Slack workspace and add the webhook URL to the config.
@@ -14,19 +14,25 @@ Additionally, there are a few environment variables you may need to set:
 * `RW_DB_PATH`: Path for the SQLite database to use
 * `RW_CONFIG_PATH`: Path to the `config.yaml` file
 
-These are both set in the provided `docker-compose.yaml`. If you prefer, you can modify the `Dockerfile` and use a volume to provide the `config.yaml` if you don't want to bake it in.
+These are both set in the provided `docker-compose.yaml`.
 
 ## Usage
 
-This is intended to be run via a cronjob on whatever increment you decide to use.
+This is intended to be run in Docker via a cronjob on whatever increment you decide to use.
 
-Example crontab entry (running every 8 hours):
+First, build the container: `docker-compose build app`
+
+Then, add it to your crontab. Example crontab entry (running every 8 hours):
 
 ```
 0 */8 * * * cd /path/to/ransomwatch && docker-compose up --abort-on-container-exit
 ```
 
-(make sure to build it first, `docker-compose build`)
+This can also be run via the command line, but that requires you to have your own Tor proxy (with the control service) running. Example execution:
+
+```
+$ RW_DB_PATH=./db_vol/ransomwatch.db RW_CONFIG_PATH=./config_vol/config.yaml python3 src/ransomwatch.py
+```
 
 ## Example Slack Messages
 

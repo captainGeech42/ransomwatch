@@ -31,7 +31,7 @@ slack:
 timeout: 30
 
 # tor proxy settings
-# the values set below are for the provided docker-compose.yml/Dockerfile.proxy
+# the values set below are for the provided docker-compose.yml
 # adjust for your own custom environment
 proxy:
   # hostname for the proxy
