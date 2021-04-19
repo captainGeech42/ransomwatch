@@ -12,6 +12,12 @@ slack:
     # url for the webhook
     url: https://hooks.slack.com/services/something/goes/here
 
+    # should new victim notifications be sent to this webhook?
+    new_victims: true
+
+    # should removed victim notifications be sent to this webhook?
+    removed_victims: true
+
     # should notifications be sent to this webhook if a site is detected as down?
     down_sites: true
 
