@@ -32,6 +32,28 @@ Then, add it to your crontab. Example crontab entry (running every 8 hours):
 0 */8 * * * cd /path/to/ransomwatch && docker-compose up --abort-on-container-exit
 ```
 
+If you'd prefer, you can use the image published on Docker Hub ([`captaingeech/ransomwatch`](https://hub.docker.com/repository/docker/captaingeech/ransomwatch/general)) instead, with a `docker-compose.yml` that looks something like this:
+
+```yml
+version: "3"
+
+services:
+  app:
+    image: captaingeech/ransomwatch:latest
+    depends_on:
+      - proxy
+    volumes:
+      - ./db_vol:/db
+      - ./config_vol:/config
+    environment:
+      PYTHONUNBUFFERED: 1
+      RW_DB_PATH: /db/ransomwatch.db
+      RW_CONFIG_PATH: /config/config.yaml
+
+  proxy:
+    image: captaingeech/tor-proxy:latest
+```
+
 This can also be run via the command line, but that requires you to have your own Tor proxy (with the control service) running. Example execution:
 
 ```
