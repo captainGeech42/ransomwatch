@@ -1,5 +1,5 @@
 **/__pycache__
 *.db
-/db_vol
+ransomwatch.db
 config.yaml
 test
