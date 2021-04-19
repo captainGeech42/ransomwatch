@@ -13,6 +13,4 @@ services:
       RW_CONFIG_PATH: /app/config.yaml
 
   proxy:
-    build:
-      context: .
-      dockerfile: Dockerfile.proxy
+    image: captaingeech/tor-proxy:latest
