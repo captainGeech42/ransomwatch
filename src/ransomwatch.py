@@ -25,7 +25,8 @@ def main(argv):
         sites.Avaddon,
         sites.Conti,
         sites.DarkSide,
-        sites.REvil
+        sites.REvil,
+        sites.Babuk
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
