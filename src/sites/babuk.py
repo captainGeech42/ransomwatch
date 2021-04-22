@@ -17,7 +17,6 @@ class Babuk(SiteCrawler):
 
             soup = BeautifulSoup(r.content.decode(), "html.parser")
 
-            logging.info(f"Got content: {soup is None}")
             # get max page number
             victim_list = soup.find_all("a", class_="leak-card p-3")
 
@@ -32,10 +31,7 @@ class Babuk(SiteCrawler):
                     # skipping news and updates
                     continue
 
-                logging.info(
-                    f"Found victim: {victim_name} - Published date: {published_dt}")
-
-                victim_leak_site = self.url + victim.attrs["href"][1:]
+                victim_leak_site = self.url + victim.attrs["href"]
 
                 q = self.session.query(Victim).filter_by(
                     url=victim_leak_site, site=self.site)

@@ -5,6 +5,7 @@ sites:
   revil: http://something.onion
   avaddon: http://something.onion
   darkside: http://something.onion
+  babuk: http://something.onion
 
 # slack webhooks
 notifications:
