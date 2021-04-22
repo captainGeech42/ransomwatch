@@ -61,6 +61,9 @@ def main(argv):
             # log exception
             logging.error(tb.strip()) # there is a trailing newline
 
+            # close db session
+            s.session.close()
+
             # skip the rest of the site since the data may be messed up
             continue
 
@@ -81,6 +84,9 @@ def main(argv):
             logging.info("Notifying for removed victims")
             for v in removed:
                 NotificationManager.send_victim_removed_notification(v)
+
+        # close db session
+        s.session.close()
 
         logging.info(f"Finished {site.actor}")
 
