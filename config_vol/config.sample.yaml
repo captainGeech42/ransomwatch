@@ -6,7 +6,8 @@ sites:
   avaddon: http://something.onion
   darkside: http://something.onion
   babuk: http://something.onion
-
+  everest: http://something.onion
+  
 # slack webhooks
 notifications:
   dest1:
