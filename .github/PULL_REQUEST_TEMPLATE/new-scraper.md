@@ -1,3 +1,8 @@
+---
+name: New Scraper
+about: Add support for scraping a new site
+---
+
 ## New Scraper: SITE/ACTOR NAME HERE
 
 This pull request adds support for SITE/ACTOR NAME HERE.
