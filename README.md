@@ -93,7 +93,7 @@ The following leak sites are (planned to be) supported:
 - [ ] Ragnarok
 - [ ] Mount Locker
 - [X] BABUK LOCKER
-- [ ] RansomEXX
+- [X] RansomEXX
 - [ ] Cuba
 - [ ] Pay2Key
 - [ ] Astro Team
