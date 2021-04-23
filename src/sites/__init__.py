@@ -3,3 +3,4 @@ from .conti import Conti
 from .darkside import DarkSide
 from .revil import REvil
 from .babuk import Babuk
+from .pay2key import Pay2Key
