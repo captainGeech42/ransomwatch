@@ -1,11 +1,10 @@
----
-name: New Scraper
-about: Add support for scraping a new site
----
+## Describe the changes
 
-## New Scraper: SITE/ACTOR NAME HERE
+## Related issue(s)
 
-This pull request adds support for SITE/ACTOR NAME HERE.
+## How was it tested?
+
+## Checklist for a new scraper (delete if N/A)
 
 - [ ] The URL for the site is nowhere in the git history
 - [ ] The site is added to `config.sample.yaml`
