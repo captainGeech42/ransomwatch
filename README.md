@@ -97,7 +97,7 @@ The following leak sites are (planned to be) supported:
 - [X] Cuba
 - [X] RansomEXX
 - [ ] Pay2Key
-- [ ] Astro Team
+- [X] Astro Team
 - [ ] Ranzy Locker
 - [ ] LV
 
