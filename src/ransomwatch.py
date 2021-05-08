@@ -27,7 +27,8 @@ def main(argv):
         sites.DarkSide,
         sites.REvil,
         sites.Babuk,
-        sites.Cuba
+        sites.Pay2Key,
+        sites.Cuba,
         sites.RansomEXX,
         sites.Mount,
         sites.Ragnarok,
