@@ -91,7 +91,7 @@ The following leak sites are (planned to be) supported:
 - [X] Suncrypt
 - [x] Everest
 - [ ] Suncrypt
-- [ ] Ragnar_Locker
+- [X] Ragnar_Locker
 - [ ] Ragnarok
 - [ ] Mount Locker
 - [X] BABUK LOCKER

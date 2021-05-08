@@ -3,6 +3,7 @@ from .conti import Conti
 from .darkside import DarkSide
 from .revil import REvil
 from .babuk import Babuk
+from .ragnar import Ragnar
 from .suncrypt import Suncrypt
 from .everest import Everest
 from .nefilim import Nefilim
