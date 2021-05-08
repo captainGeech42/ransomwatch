@@ -51,7 +51,7 @@ class DiscordNotification(NotificationSource):
                         },
                         {
                             "name": "View Victim Page",
-                            "value": f"[Link]({victim.url})"
+                            "value": f"[Link]({victim.url})" if victim.url is not None else "(no link available)"
                         },
                         {
                             "name": "View Leak Site",
