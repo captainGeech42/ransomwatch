@@ -82,22 +82,23 @@ The following leak sites are (planned to be) supported:
 - [X] Sodinokibi/REvil
 - [ ] DoppelPaymer (captcha, prob won't be supported for a while)
 - [ ] NetWalker
-- [ ] Pysa
+- [X] Pysa
 - [X] Avaddon
 - [X] DarkSide
-- [ ] CL0P
-- [ ] Nefilim
-- [ ] Everest
-- [ ] Suncrypt
-- [ ] Ragnar_Locker
-- [ ] Ragnarok
-- [ ] Mount Locker
+- [X] CL0P
+- [X] Nefilim
+- [X] Mount Locker
+- [X] Suncrypt
+- [x] Everest
+- [X] Ragnarok
+- [X] Ragnar_Locker
 - [X] BABUK LOCKER
-- [ ] RansomEXX
-- [ ] Cuba
-- [ ] Pay2Key
-- [ ] Astro Team
-- [ ] Ranzy Locker
+- [X] Pay2Key
+- [X] Cuba
+- [X] RansomEXX
+- [X] Pay2Key
+- [X] Ranzy Locker
+- [X] Astro Team
 - [ ] LV
 
 If there are other leak sites you want implemented, feel free to open a PR or DM me on Twitter, [@captainGeech42](https://twitter.com/captainGeech42)
