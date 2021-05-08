@@ -87,10 +87,10 @@ The following leak sites are (planned to be) supported:
 - [X] DarkSide
 - [ ] CL0P
 - [ ] Nefilim
-- [ ] Everest
-- [ ] Suncrypt
-- [ ] Ragnar_Locker
+- [X] Suncrypt
+- [x] Everest
 - [X] Ragnarok
+- [X] Ragnar_Locker
 - [ ] Mount Locker
 - [X] BABUK LOCKER
 - [ ] RansomEXX

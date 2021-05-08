@@ -36,7 +36,7 @@ class NotificationManager():
     
     def send_site_down_notification(site: Site):
         for dest, params in Config["notifications"].items():
-            if not params["removed_victims"]:
+            if not params["down_sites"]:
                 continue
 
             if params["type"] == "slack":
@@ -50,7 +50,7 @@ class NotificationManager():
     
     def send_error_notification(context: str, error: str, fatal: bool = False):
         for dest, params in Config["notifications"].items():
-            if not params["removed_victims"]:
+            if not params["errors"]:
                 continue
 
             if params["type"] == "slack":
