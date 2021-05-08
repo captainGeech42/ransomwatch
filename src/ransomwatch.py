@@ -27,6 +27,7 @@ def main(argv):
         sites.DarkSide,
         sites.REvil,
         sites.Babuk,
+        sites.RansomEXX,
         sites.Mount,
         sites.Ragnarok,
         sites.Ragnar,
