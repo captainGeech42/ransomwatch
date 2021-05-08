@@ -82,11 +82,11 @@ The following leak sites are (planned to be) supported:
 - [X] Sodinokibi/REvil
 - [ ] DoppelPaymer (captcha, prob won't be supported for a while)
 - [ ] NetWalker
-- [ ] Pysa
+- [X] Pysa
 - [X] Avaddon
 - [X] DarkSide
-- [ ] CL0P
-- [ ] Nefilim
+- [X] CL0P
+- [X] Nefilim
 - [X] Mount Locker
 - [X] Suncrypt
 - [x] Everest
@@ -96,7 +96,7 @@ The following leak sites are (planned to be) supported:
 - [X] Pay2Key
 - [X] Cuba
 - [X] RansomEXX
-- [ ] Pay2Key
+- [X] Pay2Key
 - [X] Ranzy Locker
 - [X] Astro Team
 - [ ] LV
