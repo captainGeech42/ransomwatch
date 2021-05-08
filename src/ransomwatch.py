@@ -27,7 +27,12 @@ def main(argv):
         sites.DarkSide,
         sites.REvil,
         sites.Babuk,
-        sites.Ragnar
+        sites.Ragnar,
+        sites.Suncrypt,
+        sites.Everest,
+        sites.Nefilim,
+        sites.Cl0p,
+        sites.Pysa
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
