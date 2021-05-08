@@ -27,6 +27,7 @@ def main(argv):
         sites.DarkSide,
         sites.REvil,
         sites.Babuk,
+        sites.Suncrypt
         sites.Everest
         sites.Nefilim,
         sites.Cl0p,
