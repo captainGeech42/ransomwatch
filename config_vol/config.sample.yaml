@@ -7,7 +7,10 @@ sites:
   darkside: http://something.onion
   babuk: http://something.onion
   everest: http://something.onion
-  
+  nefilim: http://something.onion
+  cl0p: http://something.onion
+  pysa: http://something.onion
+
 # slack webhooks
 notifications:
   dest1:
