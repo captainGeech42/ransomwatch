@@ -57,7 +57,7 @@ class SlackNotification(NotificationSource):
                             "fields": [
                                 {
                                     "type": "mrkdwn",
-                                    "text": f"<{victim.url}|View Victim Page>" if victim.url is not None else "(no link available)"
+                                    "text": f"<{victim.url}|View Victim Page>" if victim.url is not None else "(no victim link available)"
                                 },
                                 {
                                     "type": "mrkdwn",
