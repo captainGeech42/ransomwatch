@@ -23,18 +23,13 @@ class Ranzy(SiteCrawler):
             for victim in victim_list:
                 victim_name = victim.find("h3", class_="mb-3").text.strip()
 
-                # Not reliable but seems like this is how they include the link to victim's data
-                try:
-                    victim_leak_site = victim.find("a").attrs["href"]
-                except:
-                    victim_leak_site = None
-                
-                q = self.session.query(Victim).filter_by(
-                    url=victim_leak_site, site=self.site)
+                # it's less than ideal that there aren't other properties to search on
+                # but I don't want to store leak data URLs
+                q = self.session.query(Victim).filter_by(site=self.site, name=victim_name)
 
                 if q.count() == 0:
                     # new victim
-                    v = Victim(name=victim_name, url=victim_leak_site, published=None,
+                    v = Victim(name=victim_name, published=None,
                                first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
                     self.session.add(v)
                     self.new_victims.append(v)
