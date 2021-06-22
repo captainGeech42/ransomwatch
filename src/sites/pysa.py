@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import logging
 
 from bs4 import BeautifulSoup
@@ -20,26 +21,36 @@ class Pysa(SiteCrawler):
 
             # get max page number
             victim_list = soup.find_all("div", class_="page-header")
+            last_published_dt = None
+
             for victim in victim_list:
                 victim_name = victim.find_all("a")[0].text.strip()
-
                 published = victim.find_all("span")[1].text.strip()
 
-
-                published_dt = None
                 # they use a bunch of different date format...
-                if published == "29/01/21":
+                published_dt = None
+                year_format = "%y"
+                if len(published.split('/')[2]) == 4:
+                    year_format = "%Y"
+                try:
                     published_dt = datetime.strptime(
-                        published, "%d/%m/%y")
-                elif published[6:8] == "20" and published[8:] != "":
-                    published_dt = datetime.strptime(
-                        published, "%m/%d/%Y")                    
-                else:
-                    published_dt = datetime.strptime(
-                        published, "%m/%d/%y")
+                        published, "%m/%d/{}".format(year_format))
+                    # as we don't know the format of the date, let's check if the month detected
+                    # is near the previous considered month
+                    if last_published_dt and ((published_dt.month != last_published_dt.month)
+                        or (published_dt.month != (last_published_dt + relativedelta(months=-1)).month)):
+                        published_dt = datetime.strptime(
+                            published, "%d/%m/{}".format(year_format))
+                except ValueError as ve:
+                    try:
+                        published_dt = datetime.strptime(
+                            published, "%d/%m/{}".format(year_format))
+                    except ValueError as ve:
+                        logging.error("Unable to cast date {}".format(published))
+
+                last_published_dt = published_dt
 
                 victim_leak_site = self.url + '/' + victim.find_all("a")[0].attrs["href"]
-
                 q = self.session.query(Victim).filter_by(
                     url=victim_leak_site, site=self.site)
 
