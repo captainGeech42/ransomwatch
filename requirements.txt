@@ -4,3 +4,4 @@ stem
 beautifulsoup4
 SQLAlchemy
 pyyaml
+python-dateutil
