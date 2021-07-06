@@ -16,3 +16,4 @@ from .everest import Everest
 from .nefilim import Nefilim
 from .cl0p import Cl0p
 from .pysa import Pysa
+from .hive import Hive

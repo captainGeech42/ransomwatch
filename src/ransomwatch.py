@@ -39,7 +39,8 @@ def main(argv):
         sites.Everest,
         sites.Nefilim,
         sites.Cl0p,
-        sites.Pysa
+        sites.Pysa,
+        sites.Hive
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
