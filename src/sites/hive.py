@@ -39,6 +39,7 @@ class Hive(SiteCrawler):
 
             for entry in j:
                 name = entry["title"]
+
                 logging.debug(f"Found victim: {name}")
 
                 publish_dt = datetime.strptime(entry["disclosed_at"], "%Y-%m-%dT%H:%M:%SZ")
