@@ -33,10 +33,9 @@ class SiteCrawler:
     # is this the first ingest of the site? set in __init__()
     # if the first run, don't notify on new victims (b/c they are all "new")
     first_run: bool = False
-    
-    headers: Dict[str, str] = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0"
-    }
+
+    # headers to be used for requests
+    headers: Dict[str, str]
 
     def __init__(self, url: str):
         """
@@ -56,6 +55,10 @@ class SiteCrawler:
         self.session = Session()
 
         q = self.session.query(Site).filter_by(actor=self.actor)
+    
+        self.headers: Dict[str, str] = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0"
+        }
 
         if q.count() == 0:
             # site is new, init obj
