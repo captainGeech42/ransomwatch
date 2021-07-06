@@ -19,7 +19,7 @@ sites:
   nefilim: http://something.onion
   cl0p: http://something.onion
   pysa: http://something.onion
-  # this has to be their API url
+  # this has to be their API url, see readme for details
   hive: http://hiveapisomething.onion
 
 # slack webhooks

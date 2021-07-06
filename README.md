@@ -9,6 +9,7 @@ RansomWatch is a ransomware leak site monitoring tool. It will scrape all of the
 In `config_vol/`, please copy `config.sample.yaml` to `config.yaml`, and add the following:
 
 * Leak site URLs. I decided not to make this list public in order to prevent them from gaining even more noteriety, so if you have them, add them in. If not, this tool isn't for you.
+  * To get the Hive API onion, load their main site and press F12 to use the developer tools. Look for XHR requests, you should see a few to a `hiveapi...` onion domain.
 * Notification destinations. RansomWatch currently supports notifying via.the following:
   * Slack: Follow [these](https://api.slack.com/messaging/webhooks) instructions to add a new app to your Slack workspace and add the webhook URL to the config.
   * Discord: Follow [these](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) instructions to add a new app to your Discord server and add the webhook URL to the config.
