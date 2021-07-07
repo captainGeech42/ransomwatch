@@ -4,6 +4,7 @@ from config import Config
 from db.models import Site, Victim
 from .slack import SlackNotification
 from .discord import DiscordNotification
+from .telegram import TelegramNotification
 
 class NotificationManager():
     def send_new_victim_notification(victim: Victim):
@@ -13,11 +14,14 @@ class NotificationManager():
                     continue
 
                 if params["type"] == "slack":
-                    if not SlackNotification.send_new_victim_notification(params["url"], victim):
+                    if not SlackNotification.send_new_victim_notification(victim, url=params["url"]):
                         logging.error(f"Failed to send new victim notification to Slack workspace \"{dest}\"")
                 elif params["type"] == "discord":
-                    if not DiscordNotification.send_new_victim_notification(params["url"], victim):
+                    if not DiscordNotification.send_new_victim_notification(victim, url=params["url"]):
                         logging.error(f"Failed to send new victim notification to Discord guild \"{dest}\"")
+                elif params["type"] == "telegram":
+                    if not TelegramNotification.send_new_victim_notification(victim, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
+                        logging.error(f"Failed to send new victim notification to Telegram chat \"{params['telegram_chatid']}\"")
                 else:
                     logging.error(f"Attempted to send a new victim notification to an unsupported notification type: {params['type']}")
     
@@ -28,11 +32,14 @@ class NotificationManager():
                     continue
 
                 if params["type"] == "slack":
-                    if not SlackNotification.send_victim_removed_notification(params["url"], victim):
+                    if not SlackNotification.send_victim_removed_notification(victim, url=params["url"]):
                         logging.error(f"Failed to send removed victim notification to Slack workspace \"{dest}\"")
                 elif params["type"] == "discord":
-                    if not DiscordNotification.send_victim_removed_notification(params["url"], victim):
+                    if not DiscordNotification.send_victim_removed_notification(victim, url=params["url"]):
                         logging.error(f"Failed to send removed victim notification to Discord guild \"{dest}\"")
+                elif params["type"] == "telegram":
+                    if not TelegramNotification.send_victim_removed_notification(victim, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
+                        logging.error(f"Failed to send removed victim notification to Telegram chat \"{params['telegram_chatid']}\"")
                 else:
                     logging.error(f"Attempted to send a removed victim notification to an unsupported notification type: {params['type']}")
     
@@ -43,11 +50,14 @@ class NotificationManager():
                     continue
 
                 if params["type"] == "slack":
-                    if not SlackNotification.send_site_down_notification(params["url"], site):
+                    if not SlackNotification.send_site_down_notification(site, url=params["url"]):
                         logging.error(f"Failed to send site down notification to Slack workspace \"{dest}\"")
                 elif params["type"] == "discord":
-                    if not DiscordNotification.send_site_down_notification(params["url"], site):
+                    if not DiscordNotification.send_site_down_notification(site, url=params["url"]):
                         logging.error(f"Failed to send site down notification to Discord guild \"{dest}\"")
+                elif params["type"] == "telegram":
+                    if not TelegramNotification.send_site_down_notification(site, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
+                        logging.error(f"Failed to send site down notification to Telegram chat \"{params['telegram_chatid']}\"")
                 else:
                     logging.error(f"Attempted to send a site down notification to an unsupported notification type: {params['type']}")
     
@@ -58,10 +68,14 @@ class NotificationManager():
                     continue
 
                 if params["type"] == "slack":
-                    if not SlackNotification.send_error_notification(params["url"], context, error, fatal):
+                    if not SlackNotification.send_error_notification(context, error, fatal, url=params["url"]):
                         logging.error(f"Failed to send error notification to Slack workspace \"{dest}\"")
                 elif params["type"] == "discord":
-                    if not DiscordNotification.send_error_notification(params["url"], context, error, fatal):
+                    if not DiscordNotification.send_error_notification(context, error, fatal, url=params["url"]):
                         logging.error(f"Failed to send error notification to Discord guild \"{dest}\"")
+                elif params["type"] == "telegram":
+                    if not TelegramNotification.send_error_notification(context, error, fatal, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
+                        logging.error(f"Failed to send error notification to Telegram chat \"{params['telegram_chatid']}\"")
+                               
                 else:
                     logging.error(f"Attempted to send a site down notification to an unsupported notification type: {params['type']}")

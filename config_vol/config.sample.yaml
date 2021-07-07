@@ -26,11 +26,16 @@ sites:
 notifications:
   dest1:
     # type of notification
-    # valid options: slack, discord
+    # valid options: slack, discord, telegram
     type: slack
 
     # url for the webhook (slack, discord)
     url: https://hooks.slack.com/services/something/goes/here
+
+    # telegram bot ApiKey
+    telegram_apikey: xxxx
+    # telegram chatid (could be obtained in https://api.telegram.org/bot<YOUR_APIKEY>/getUpdates)
+    telegram_chatid: xxxx
 
     # should new victim notifications be sent to this webhook?
     new_victims: true
