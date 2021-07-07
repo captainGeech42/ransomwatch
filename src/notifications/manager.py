@@ -5,6 +5,7 @@ from db.models import Site, Victim
 from .slack import SlackNotification
 from .discord import DiscordNotification
 from .telegram import TelegramNotification
+from .mattermost import MattermostNotification
 
 class NotificationManager():
     def send_new_victim_notification(victim: Victim):
@@ -21,7 +22,10 @@ class NotificationManager():
                         logging.error(f"Failed to send new victim notification to Discord guild \"{dest}\"")
                 elif params["type"] == "telegram":
                     if not TelegramNotification.send_new_victim_notification(victim, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
-                        logging.error(f"Failed to send new victim notification to Telegram chat \"{params['telegram_chatid']}\"")
+                        logging.error(f"Failed to send new victim notification to Telegram chat \"{dest}\"")
+                elif params["type"] == "mattermost":
+                   if not MattermostNotification.send_new_victim_notification(victim, url=params["url"], username=params['mattermost_username'], channel=params['mattermost_channel']):
+                        logging.error(f"Failed to send new victim notification to Mattermost chat \"{dest}\"")          
                 else:
                     logging.error(f"Attempted to send a new victim notification to an unsupported notification type: {params['type']}")
     
@@ -39,7 +43,10 @@ class NotificationManager():
                         logging.error(f"Failed to send removed victim notification to Discord guild \"{dest}\"")
                 elif params["type"] == "telegram":
                     if not TelegramNotification.send_victim_removed_notification(victim, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
-                        logging.error(f"Failed to send removed victim notification to Telegram chat \"{params['telegram_chatid']}\"")
+                        logging.error(f"Failed to send removed victim notification to Telegram chat \"{dest}\"")
+                elif params["type"] == "mattermost":
+                   if not MattermostNotification.send_victim_removed_notification(victim, url=params["url"], username=params['mattermost_username'], channel=params['mattermost_channel']):
+                        logging.error(f"Failed to send removed victim notification to Mattermost chat \"{dest}\"")
                 else:
                     logging.error(f"Attempted to send a removed victim notification to an unsupported notification type: {params['type']}")
     
@@ -57,7 +64,10 @@ class NotificationManager():
                         logging.error(f"Failed to send site down notification to Discord guild \"{dest}\"")
                 elif params["type"] == "telegram":
                     if not TelegramNotification.send_site_down_notification(site, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
-                        logging.error(f"Failed to send site down notification to Telegram chat \"{params['telegram_chatid']}\"")
+                        logging.error(f"Failed to send site down notification to Telegram chat \"{dest}\"")
+                elif params["type"] == "mattermost":
+                   if not MattermostNotification.send_site_down_notification(site, url=params["url"], username=params['mattermost_username'], channel=params['mattermost_channel']):
+                        logging.error(f"Failed to send site down notification to Mattermost chat \"{dest}\"")
                 else:
                     logging.error(f"Attempted to send a site down notification to an unsupported notification type: {params['type']}")
     
@@ -75,7 +85,9 @@ class NotificationManager():
                         logging.error(f"Failed to send error notification to Discord guild \"{dest}\"")
                 elif params["type"] == "telegram":
                     if not TelegramNotification.send_error_notification(context, error, fatal, apikey=params["telegram_apikey"], chatid=params["telegram_chatid"]):
-                        logging.error(f"Failed to send error notification to Telegram chat \"{params['telegram_chatid']}\"")
-                               
+                        logging.error(f"Failed to send error notification to Telegram chat \"{dest}\"")
+                elif params["type"] == "mattermost":
+                   if not MattermostNotification.send_error_notification(context, error, fatal, url=params["url"], username=params['mattermost_username'], channel=params['mattermost_channel']):
+                        logging.error(f"Failed to send error notification to Mattermost chat \"{dest}\"")              
                 else:
-                    logging.error(f"Attempted to send a site down notification to an unsupported notification type: {params['type']}")
+                    logging.error(f"Attempted to send error notification to an unsupported notification type: {params['type']}")

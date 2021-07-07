@@ -26,16 +26,23 @@ sites:
 notifications:
   dest1:
     # type of notification
-    # valid options: slack, discord, telegram
+    # valid options: slack, discord, telegram, mattermost
     type: slack
 
-    # url for the webhook (slack, discord)
+    # url for the webhook (slack, discord, mattermost)
     url: https://hooks.slack.com/services/something/goes/here
 
     # telegram bot ApiKey
     telegram_apikey: xxxx
+
     # telegram chatid (could be obtained in https://api.telegram.org/bot<YOUR_APIKEY>/getUpdates)
     telegram_chatid: xxxx
+
+    # mattermost username
+    mattermost_username: Ransomwatch
+    
+    # mattermost channel
+    mattermost_channel: Ransomwatch
 
     # should new victim notifications be sent to this webhook?
     new_victims: true
