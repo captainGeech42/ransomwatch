@@ -39,7 +39,7 @@ class MattermostNotification(NotificationSource):
     def send_victim_removed_notification(victim: Victim, url: str, channel: str, username: str) -> bool:
         published_ts = datetime.strftime(victim.published, '%b %d, %Y') if victim.published is not None else "N/A"
 
-        body = f":no_bell: **New Victim Posted**\n" \
+        body = f":no_bell: **Victim Removed**\n" \
                f"**Actor:** {victim.site.actor}\n" \
                f"**Organization:** {victim.name}\n" \
                f"**Published Date:** {published_ts}\n" \
