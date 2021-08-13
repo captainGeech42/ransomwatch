@@ -17,3 +17,9 @@ from .nefilim import Nefilim
 from .cl0p import Cl0p
 from .pysa import Pysa
 from .hive import Hive
+from .lockbit import Lockbit
+from .xing import Xing
+from .lorenz import Lorenz
+from .cometa import Cometa
+from .arvin import Arvin
+from .blackmatter import Blackmatter
