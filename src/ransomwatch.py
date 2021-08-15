@@ -40,7 +40,13 @@ def main(argv):
         sites.Nefilim,
         sites.Cl0p,
         sites.Pysa,
-        sites.Hive
+        sites.Hive,
+        sites.Lockbit,
+        sites.Xing,
+        sites.Lorenz,
+        sites.Cometa,
+        sites.Arvin,
+        sites.Blackmatter
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")

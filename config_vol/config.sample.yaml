@@ -19,6 +19,12 @@ sites:
   nefilim: http://something.onion
   cl0p: http://something.onion
   pysa: http://something.onion
+  lockbit: http://something.onion
+  xing: http://something.onion
+  lorenz: http://something.onion
+  elcometa: http://something.onion
+  arvin: http://something.onion
+  blackmatter: http://something.onion
   # this has to be their API url, see readme for details
   hive: http://hiveapisomething.onion
 
