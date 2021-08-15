@@ -1,6 +1,7 @@
 import logging
-import sys
 import traceback
+import argparse
+import time
 
 from config import Config
 from notifications import NotificationManager
@@ -18,8 +19,13 @@ logging.basicConfig(
 
 defang = lambda u: u.replace("http", "hxxp").replace(".onion", "[.]onion")
 
-def main(argv):
+def main():
     logging.info("Initializing")
+
+    parser = argparse.ArgumentParser(description='RansomWatch is a ransomware leak site monitoring tool.')
+    parser.add_argument('--delay', '-d', type=int, default=0,
+                        help='Number of seconds between two checks.')
+    args = parser.parse_args()
 
     sites_to_analyze = [
         sites.Avaddon,
@@ -51,71 +57,78 @@ def main(argv):
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
 
-    for site in sites_to_analyze:
-        logging.info(f"Starting process for {site.actor}")
+    while True:
+        for site in sites_to_analyze:
+            logging.info(f"Starting process for {site.actor}")
 
-        if site.actor.lower() not in Config["sites"]:
-            logging.warning(f"No URL found in config for this actor, skipping")
-            continue
+            if site.actor.lower() not in Config["sites"]:
+                logging.warning(f"No URL found in config for this actor, skipping")
+                continue
 
-        s = site(Config["sites"][site.actor.lower()])
+            s = site(Config["sites"][site.actor.lower()])
 
-        if not s.is_up:
-            logging.warning(f"{site.actor} is down, notifying + skipping")
-            NotificationManager.send_site_down_notification(s.site)
-            continue
-        
-        if s.first_run:
-            logging.info(f"This is the first scrape for {site.actor}, no victim notifications will be sent")
+            if not s.is_up:
+                logging.warning(f"{site.actor} is down, notifying + skipping")
+                NotificationManager.send_site_down_notification(s.site)
+                continue
+            
+            if s.first_run:
+                logging.info(f"This is the first scrape for {site.actor}, no victim notifications will be sent")
 
-        logging.info(f"Scraping victims")
-        try:
-            s.scrape_victims()
-        except:
-            logging.error(f"Got an error while scraping {site.actor}, notifying")
+            logging.info(f"Scraping victims")
+            try:
+                s.scrape_victims()
+            except:
+                logging.error(f"Got an error while scraping {site.actor}, notifying")
 
-            tb = traceback.format_exc()
+                tb = traceback.format_exc()
 
-            # send error notifications
-            NotificationManager.send_error_notification(f"{site.actor} scraping", tb)
+                # send error notifications
+                NotificationManager.send_error_notification(f"{site.actor} scraping", tb)
 
-            # log exception
-            logging.error(tb.strip()) # there is a trailing newline
+                # log exception
+                logging.error(tb.strip()) # there is a trailing newline
+
+                # close db session
+                s.session.close()
+
+                # skip the rest of the site since the data may be messed up
+                continue
+
+            logging.info(f"There are {len(s.new_victims)} new victims")
+
+            # send notifications for new victims
+            if not s.first_run and len(s.new_victims) > 0:
+                logging.info("Notifying for new victims")
+                for v in s.new_victims:
+                    NotificationManager.send_new_victim_notification(v)
+            
+            logging.info(f"Identifying removed victims")
+            removed = s.identify_removed_victims()
+            logging.info(f"There are {len(removed)} removed victims")
+
+            # send notifications for removed victims
+            if not s.first_run and len(removed) > 0:
+                logging.info("Notifying for removed victims")
+                for v in removed:
+                    NotificationManager.send_victim_removed_notification(v)
 
             # close db session
             s.session.close()
 
-            # skip the rest of the site since the data may be messed up
-            continue
+            logging.info(f"Finished {site.actor}")
 
-        logging.info(f"There are {len(s.new_victims)} new victims")
-
-        # send notifications for new victims
-        if not s.first_run and len(s.new_victims) > 0:
-            logging.info("Notifying for new victims")
-            for v in s.new_victims:
-                NotificationManager.send_new_victim_notification(v)
-        
-        logging.info(f"Identifying removed victims")
-        removed = s.identify_removed_victims()
-        logging.info(f"There are {len(removed)} removed victims")
-
-        # send notifications for removed victims
-        if not s.first_run and len(removed) > 0:
-            logging.info("Notifying for removed victims")
-            for v in removed:
-                NotificationManager.send_victim_removed_notification(v)
-
-        # close db session
-        s.session.close()
-
-        logging.info(f"Finished {site.actor}")
-
-    logging.info("Finished all sites, exiting")
+        # Wait or exit
+        if args.delay > 0:
+            logging.info(f"Finished all sites, next check in {args.delay} seconds")
+            time.sleep(args.delay)
+        else:
+            logging.info("Finished all sites, exiting")
+            break
     
 if __name__ == "__main__":
     try:
-        main(sys.argv)
+        main()
     except:
         logging.error(f"Got a fatal error, notifying + aborting")
 

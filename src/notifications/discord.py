@@ -24,7 +24,7 @@ class DiscordNotification(NotificationSource):
 
         return True
 
-    def send_new_victim_notification(url: str, victim: Victim) -> bool:
+    def send_new_victim_notification(victim: Victim, url: str) -> bool:
         published_ts = datetime.strftime(victim.published, '%b %d, %Y') if victim.published is not None else "N/A"
 
         body = {
@@ -64,7 +64,7 @@ class DiscordNotification(NotificationSource):
 
         return DiscordNotification._post_webhook(body, url)
 
-    def send_victim_removed_notification(url: str, victim: Victim) -> bool:
+    def send_victim_removed_notification(victim: Victim, url: str) -> bool:
         published_ts = datetime.strftime(victim.published, '%b %d, %Y') if victim.published is not None else "N/A"
         
         body = {
@@ -100,7 +100,7 @@ class DiscordNotification(NotificationSource):
 
         return DiscordNotification._post_webhook(body, url)
 
-    def send_site_down_notification(url: str, site: Site) -> bool:
+    def send_site_down_notification(site: Site, url: str) -> bool:
         last_up_ts = datetime.strftime(site.last_up, '%b %d, %Y at %H:%M:%S UTC') if site.last_up is not None else "N/A"
         
         body = {
@@ -128,7 +128,7 @@ class DiscordNotification(NotificationSource):
 
         return DiscordNotification._post_webhook(body, url)
 
-    def send_error_notification(url: str, context: str, error: str, fatal: bool = False) -> bool:
+    def send_error_notification(context: str, error: str, fatal: bool = False, url: str = None) -> bool:
         body = {
             "embeds": [
                 {

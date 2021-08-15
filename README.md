@@ -13,6 +13,8 @@ In `config_vol/`, please copy `config.sample.yaml` to `config.yaml`, and add the
 * Notification destinations. RansomWatch currently supports notifying via.the following:
   * Slack: Follow [these](https://api.slack.com/messaging/webhooks) instructions to add a new app to your Slack workspace and add the webhook URL to the config.
   * Discord: Follow [these](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) instructions to add a new app to your Discord server and add the webhook URL to the config.
+  * Telegram: Follow [these](https://core.telegram.org/bots) instructions to create a new Telegram bot and get the apikey for the config.
+  * Mattermost: Follow [these](https://docs.mattermost.com/developer/webhooks-incoming.html) instructions to add a new incoming webhook to your Mattermost server and add the webhook URL to the config.
 
 Additionally, there are a few environment variables you may need to set:
 
