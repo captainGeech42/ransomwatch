@@ -75,14 +75,10 @@ The messages sent to Discord are very similar in style, identical in content.
 
 ## Leak Site Implementations
 
-The following leak sites are (planned to be) supported:
+The following leak sites are supported:
 
 - [x] Conti
-- [ ] MAZE
-- [ ] Egregor
 - [X] Sodinokibi/REvil
-- [ ] DoppelPaymer (captcha, prob won't be supported for a while)
-- [ ] NetWalker
 - [X] Pysa
 - [X] Avaddon
 - [X] DarkSide
@@ -100,6 +96,11 @@ The following leak sites are (planned to be) supported:
 - [X] Pay2Key
 - [X] Ranzy Locker
 - [X] Astro Team
-- [ ] LV
+- [X] BlackMatter
+- [X] Arvin
+- [X] El_Cometa
+- [X] Lorenz
+- [X] Xing
+- [X] Lockbit
 
 If there are other leak sites you want implemented, feel free to open a PR or DM me on Twitter, [@captainGeech42](https://twitter.com/captainGeech42)
