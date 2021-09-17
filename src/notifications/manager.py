@@ -4,6 +4,7 @@ from config import Config
 from db.models import Site, Victim
 from .slack import SlackNotification
 from .discord import DiscordNotification
+from .teams import TeamsNotification
 
 class NotificationManager():
     def send_new_victim_notification(victim: Victim):
@@ -15,6 +16,9 @@ class NotificationManager():
                 if params["type"] == "slack":
                     if not SlackNotification.send_new_victim_notification(params["url"], victim):
                         logging.error(f"Failed to send new victim notification to Slack workspace \"{dest}\"")
+                elif params["type"] == "teams":
+                    if not TeamsNotification.send_new_victim_notification(params["url"], victim):
+                        logging.error(f"Failed to send new victim notification to Teams channel \"{dest}\"")
                 elif params["type"] == "discord":
                     if not DiscordNotification.send_new_victim_notification(params["url"], victim):
                         logging.error(f"Failed to send new victim notification to Discord guild \"{dest}\"")
@@ -30,6 +34,9 @@ class NotificationManager():
                 if params["type"] == "slack":
                     if not SlackNotification.send_victim_removed_notification(params["url"], victim):
                         logging.error(f"Failed to send removed victim notification to Slack workspace \"{dest}\"")
+                elif params["type"] == "teams":
+                    if not TeamsNotification.send_victim_removed_notification(params["url"], victim):
+                        logging.error(f"Failed to send removed victim notification to Teams channel \"{dest}\"")
                 elif params["type"] == "discord":
                     if not DiscordNotification.send_victim_removed_notification(params["url"], victim):
                         logging.error(f"Failed to send removed victim notification to Discord guild \"{dest}\"")
@@ -41,10 +48,12 @@ class NotificationManager():
             for dest, params in Config["notifications"].items():
                 if not params["down_sites"]:
                     continue
-
                 if params["type"] == "slack":
                     if not SlackNotification.send_site_down_notification(params["url"], site):
                         logging.error(f"Failed to send site down notification to Slack workspace \"{dest}\"")
+                elif params["type"] == "teams":
+                    if not TeamsNotification.send_site_down_notification(params["url"], site):
+                        logging.error(f"Failed to send site down notification to Teams channel \"{dest}\"")
                 elif params["type"] == "discord":
                     if not DiscordNotification.send_site_down_notification(params["url"], site):
                         logging.error(f"Failed to send site down notification to Discord guild \"{dest}\"")
@@ -60,6 +69,9 @@ class NotificationManager():
                 if params["type"] == "slack":
                     if not SlackNotification.send_error_notification(params["url"], context, error, fatal):
                         logging.error(f"Failed to send error notification to Slack workspace \"{dest}\"")
+                elif params["type"] == "teams":
+                    if not TeamsNotification.send_error_notification(params["url"], context, error, fatal):
+                        logging.error(f"Failed to send error notification to Teams channel \"{dest}\"")
                 elif params["type"] == "discord":
                     if not DiscordNotification.send_error_notification(params["url"], context, error, fatal):
                         logging.error(f"Failed to send error notification to Discord guild \"{dest}\"")
