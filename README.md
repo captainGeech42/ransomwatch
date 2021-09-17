@@ -13,6 +13,7 @@ In `config_vol/`, please copy `config.sample.yaml` to `config.yaml`, and add the
 * Notification destinations. RansomWatch currently supports notifying via.the following:
   * Slack: Follow [these](https://api.slack.com/messaging/webhooks) instructions to add a new app to your Slack workspace and add the webhook URL to the config.
   * Discord: Follow [these](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) instructions to add a new app to your Discord server and add the webhook URL to the config.
+  * Teams: Follow [these](https://docs.microsoft.com/ja-jp/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook) instructions to add a new app to your Teams channel and add the webhook URL to the config.
 
 Additionally, there are a few environment variables you may need to set:
 
@@ -71,7 +72,7 @@ $ RW_DB_PATH=./db_vol/ransomwatch.db RW_CONFIG_PATH=./config_vol/config.yaml pyt
 
 ![Slack notification for an error](/img/slack_example_error.png)
 
-The messages sent to Discord are very similar in style, identical in content.
+The messages sent to Discord and Teams are very similar in style, identical in content.
 
 ## Leak Site Implementations
 
