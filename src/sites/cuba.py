@@ -43,7 +43,10 @@ class Cuba(SiteCrawler):
         
         if month == "febriary":
             month = "February"
-           
+        
+        if month == "Jule":
+            month = "July"
+        
         published = day + " " + month + " " + year
            
         return datetime.strptime(published, "%d %B %Y")
