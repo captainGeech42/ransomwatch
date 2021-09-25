@@ -19,7 +19,7 @@ sites:
   ##nefilim: http://something.onion
   ##cl0p: http://something.onion
   pysa: http://something.onion
-  lockbit: http://something.onion
+  ##lockbit: http://something.onion
   xing: http://something.onion
   lorenz: http://something.onion
   elcometa: http://something.onion
