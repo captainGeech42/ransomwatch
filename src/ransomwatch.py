@@ -46,7 +46,11 @@ def main(argv):
         sites.Lorenz,
         sites.Cometa,
         sites.Arvin,
-        sites.Blackmatter
+        sites.Blackmatter,
+        sites.AvosLocker,
+        sites.LV,
+        sites.Marketo,
+        sites.LockData
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
