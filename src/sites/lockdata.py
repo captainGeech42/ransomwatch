@@ -18,11 +18,10 @@ class LockData(SiteCrawler):
             soup = BeautifulSoup(r.content.decode(), "html.parser")
 
             # get max page number
-            victim_list = soup.find_all("div", {'class' : re.compile('auction-item.*')})
+            victim_list = soup.find_all("div", {'class' : re.compile('auction-item _.*')})
 
             for victim in victim_list:
                 victim_name = victim.find("div", class_="auction-item-info__title").text.strip()
-                print(victim_name)
                 published_dt = None
 
                 victim_leak_site = self.url + victim.find("div", class_="auction-item-info__title").find("a")$
