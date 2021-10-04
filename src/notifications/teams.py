@@ -16,16 +16,9 @@ class TeamsNotification(NotificationSource):
     def _send_message_by_incomingwebhook(url: str,message: str) -> requests.models.Response:
         headers={"Content-type": "application/json"}
         params={"text":message}
-        response=TeamsNotification._post(url,headers=headers,params=json.dumps(params))
+        response=requests.post(url,headers=headers,data=params)
         return response
 
-    def _post(url: str, headers: dict = None, params: dict = None) -> requests.models.Response:
-        if headers:
-            response=requests.post(url,headers=headers,data=params)
-        else :
-            response=requests.post(url,data=params)
-
-        return response
 
     def _post_webhook(body: str, url: str) -> bool:
         r = TeamsNotification._send_message_by_incomingwebhook(url, body)
