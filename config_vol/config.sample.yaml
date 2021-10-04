@@ -32,10 +32,10 @@ sites:
 notifications:
   dest1:
     # type of notification
-    # valid options: slack, discord
+    # valid options: slack, discord, Teams
     type: slack
 
-    # url for the webhook (slack, discord)
+    # url for the webhook (slack, discord, Teams)
     url: https://hooks.slack.com/services/something/goes/here
 
     # should new victim notifications be sent to this webhook?
