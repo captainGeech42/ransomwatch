@@ -13,15 +13,10 @@ class TeamsNotification(NotificationSource):
         url_rep = url.replace("http", "hxxp").replace(".", "[.]")
         return url_rep
 
-    def _send_message_by_incomingwebhook(url: str,message: str) -> requests.models.Response:
-        headers={"Content-type": "application/json"}
-        params={"text":message}
-        response=requests.post(url,headers=headers,data=params)
-        return response
-
-
     def _post_webhook(body: str, url: str) -> bool:
-        r = TeamsNotification._send_message_by_incomingwebhook(url, body)
+        headers={"Content-type": "application/json"}
+        params={"text":body}
+        r=requests.post(url,headers=headers,data=params)
         if r.status_code != 200:
             logging.error(f"Error sending Teams notification ({r.status_code}): {r.content.decode()}")
             return False
