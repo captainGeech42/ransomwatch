@@ -74,6 +74,6 @@ View Leak Site: {TeamsNotification._escape_url(site.url)}'''
         body = f'''{'*■Fatal* ' if fatal else ''}Error
 An error occurred: {context}\n
 ```{error}```\nFor more details, please check the app container logs\n
-If you think this is a bug, please on GitHub open an issue:https://github.com/lac-japan/ransomwatch/issues'''
+If you think this is a bug, please on GitHub open an issue:https://github.com/captainGeech42/ransomwatch'''
 
         return TeamsNotification._post_webhook(body, url)
