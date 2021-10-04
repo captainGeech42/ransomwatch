@@ -9,17 +9,17 @@ from .source import NotificationSource
 
 class TeamsNotification(NotificationSource):
 
-    def _escape_url(url:str) -> str:
+    def _escape_url(url: str) -> str:
         url_rep = url.replace("http", "hxxp").replace(".", "[.]")
         return url_rep
 
-    def _send_message_by_incomingwebhook(url:str,message:str) -> requests.models.Response:
+    def _send_message_by_incomingwebhook(url: str,message: str) -> requests.models.Response:
         headers={"Content-type": "application/json"}
         params={"text":message}
         response=TeamsNotification._post(url,headers=headers,params=json.dumps(params))
         return response
 
-    def _post(url:str, headers:dict = None, params:dict = None) -> requests.models.Response:
+    def _post(url: str, headers: dict = None, params: dict = None) -> requests.models.Response:
         if headers:
             response=requests.post(url,headers=headers,data=params)
         else :
