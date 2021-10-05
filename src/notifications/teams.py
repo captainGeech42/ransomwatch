@@ -16,7 +16,7 @@ class TeamsNotification(NotificationSource):
     def _post_webhook(body: str, url: str) -> bool:
         headers={"Content-type": "application/json"}
         params={"text":body}
-        r=requests.post(url,headers=headers,data=params)
+        r=requests.post(url,headers=headers,data=json.dumps(params))
         if r.status_code != 200:
             logging.error(f"Error sending Teams notification ({r.status_code}): {r.content.decode()}")
             return False
