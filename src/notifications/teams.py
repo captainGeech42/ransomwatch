@@ -16,7 +16,7 @@ class TeamsNotification(NotificationSource):
     def _post_webhook(body: str, url: str) -> bool:
         headers={"Content-type": "application/json"}
         params={"text":body}
-        r=requests.post(url,headers=headers,data=params)
+        r=requests.post(url,headers=headers,data=json.dumps(params))
         if r.status_code != 200:
             logging.error(f"Error sending Teams notification ({r.status_code}): {r.content.decode()}")
             return False
@@ -27,7 +27,7 @@ class TeamsNotification(NotificationSource):
     def send_new_victim_notification(url: str, victim: Victim) -> bool:
         published_ts = datetime.strftime(victim.published, '%b %d, %Y') if victim.published is not None else "N/A"
 
-        body = f'''*■New Victim Posted*\n
+        body = f'''*New Victim Posted*\n
   Actor: {victim.site.actor}\n
   Organization: {victim.name}\n
   Published Date: {published_ts}\n
@@ -40,7 +40,7 @@ class TeamsNotification(NotificationSource):
     def send_victim_removed_notification(url: str, victim: Victim) -> bool:
         published_ts = datetime.strftime(victim.published, '%b %d, %Y') if victim.published is not None else "N/A"
 
-        body = f'''*■Victim Removed*\n
+        body = f'''*Victim Removed*\n
 Actor: {victim.site.actor}\n
 Organization: {victim.name}\n
 Date Originally Published: {published_ts}\n
@@ -52,14 +52,14 @@ View Leak Site: {TeamsNotification._escape_url(victim.site.url)}'''
     def send_site_down_notification(url: str, site: Site) -> bool:
         last_up_ts = datetime.strftime(site.last_up, '%b %d, %Y at %H:%M:%S UTC') if site.last_up is not None else "N/A"
 
-        body = f'''*■Site Down*\n
+        body = f'''*Site Down*\n
 Actor: {site.actor}\n
 View Leak Site: {TeamsNotification._escape_url(site.url)}'''
 
         return TeamsNotification._post_webhook(body, url)
 
     def send_error_notification(url: str, context: str, error: str, fatal: bool = False) -> bool:
-        body = f'''{'*■Fatal* ' if fatal else ''}Error
+        body = f'''{'*Fatal* ' if fatal else ''}Error
 An error occurred: {context}\n
 ```{error}```\nFor more details, please check the app container logs\n
 If you think this is a bug, please on GitHub open an issue:https://github.com/captainGeech42/ransomwatch'''
