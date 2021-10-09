@@ -103,5 +103,9 @@ The following leak sites are supported:
 - [X] Lorenz
 - [X] Xing
 - [X] Lockbit
+- [X] AvosLocker
+- [X] LV
+- [X] Marketo
+- [X] Lockdata
 
 If there are other leak sites you want implemented, feel free to open a PR or DM me on Twitter, [@captainGeech42](https://twitter.com/captainGeech42)
