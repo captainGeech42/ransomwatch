@@ -1,7 +1,6 @@
 from datetime import datetime
 from bs4 import BeautifulSoup
 import logging
-import requests
 
 from config import Config
 from db.models import Victim
@@ -51,7 +50,7 @@ class Avoslocker(SiteCrawler):
 
                 if q.count() == 0:
                     # new victim
-                    v = Victim(name=name, url=None, published=publish_dt, first_seen=datetime.utcnow(), last_see$
+                    v = Victim(name=name, url=None, published=publish_dt, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
                     self.session.add(v)
                     self.new_victims.append(v)
                 else:
