@@ -18,13 +18,12 @@ class Cl0p(SiteCrawler):
             soup = BeautifulSoup(r.content.decode(), "html.parser")
 
             # get max page number
-            victim_list = soup.find("div", class_="collapse-section").find_all("li")
+            victim_list = soup.find("ul", class_="g-toplevel").find_all("li", class_="g-menu-item")
             for victim in victim_list:
-                victim_name = victim.find("a").text.strip()
+                victim_name = victim.find("span", class_="g-menu-item-title").text.strip()
                 
-                if victim_name == "HOME" or victim_name == "HOW TO DOWNLOAD?":
+                if victim_name in ("HOME", "HOW TO DOWNLOAD?", "ARCHIVE"):
                     continue
-                
                 
                 victim_leak_site = self.url + victim.find("a").attrs["href"]
                 
