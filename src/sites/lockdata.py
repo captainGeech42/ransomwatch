@@ -24,7 +24,7 @@ class LockData(SiteCrawler):
                 victim_name = victim.find("div", class_="auction-item-info__title").text.strip()
                 published_dt = None
 
-                victim_leak_site = self.url + victim.find("div", class_="auction-item-info__title").find("a")$
+                victim_leak_site = self.url + victim.find("div", class_="auction-item-info__title").find("a").attrs["href"]
 
                 q = self.session.query(Victim).filter_by(
                     url=victim_leak_site, site=self.site)

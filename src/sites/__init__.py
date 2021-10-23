@@ -26,4 +26,4 @@ from .blackmatter import Blackmatter
 from .avoslocker import Avoslocker
 from .lv import LV
 from .marketo import Marketo
-from .lockdata import Lockdata
+from .lockdata import LockData
