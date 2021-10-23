@@ -22,7 +22,7 @@ class Marketo(SiteCrawler):
 
             for victim in victim_list:
 
-                victim_name = victim.find("div", class_="text-left text-grey d-block overflow-hidden").find("a")$
+                victim_name = victim.find("div", class_="text-left text-grey d-block overflow-hidden").find("a").attrs["href"]
 
                 published_dt = None
 
