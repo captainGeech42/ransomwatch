@@ -47,7 +47,7 @@ def main(argv):
         sites.Cometa,
         sites.Arvin,
         sites.Blackmatter,
-        sites.AvosLocker,
+        sites.Avoslocker,
         sites.LV,
         sites.Marketo,
         sites.LockData
