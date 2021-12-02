@@ -20,22 +20,27 @@ class Ragnar(SiteCrawler):
             script_list = soup.find_all("script")
             # they include the list in javascript code instead of HTML
             # So we have to parse it
-            javascript_code = ""
+            js_victims_raw = ""
+            js_marker = "var post_links = "
+
+            with open("index.html") as f:
+                html = f.read()
+            soup = BeautifulSoup(html, "html.parser")
+            script_list = soup.find_all("script")
+
             for script in script_list:
                 script = str(script)
-                if "var post_links = " in script:
-                    javascript_code = script
+                if js_marker in script:
+                    js_victims_raw = script
                     break
-            start_index = javascript_code.find("var post_links = ")
-            end_index = javascript_code[start_index:].find("var baseUrl") + start_index
-            javascript_code = javascript_code[start_index:end_index].strip()
-            
-            start_index = javascript_code.find("[")
-            end_index = javascript_code.rfind("]") + 1
-            javascript_code = javascript_code[start_index:end_index].strip().replace("null", "None")
-            
-            # convert javascript list of dictionary to python's list of dictionary
-            victim_list = list(eval(javascript_code))
+
+            if not js_victims_raw:
+                raise Exception(f"js victim list not found (tried to locate '{js_marker}')")
+
+            raw_victim_list = js_victims_raw.split(f"{js_marker}[{{")[1].split(
+                "}]"
+            )[0]
+            victim_list = json.loads(f"[{{{raw_victim_list}}}]")
 
             for victim in victim_list:
                 victim_name = victim["title"]
