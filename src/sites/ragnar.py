@@ -24,8 +24,6 @@ class Ragnar(SiteCrawler):
             js_victims_raw = ""
             js_marker = "var post_links = "
 
-            script_list = soup.find_all("script")
-
             for script in script_list:
                 script = str(script)
                 if js_marker in script:
