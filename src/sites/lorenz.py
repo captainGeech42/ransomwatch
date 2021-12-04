@@ -13,11 +13,15 @@ class Lorenz(SiteCrawler):
 
     def _handle_page(self, body: str):
         soup = BeautifulSoup(body, "html.parser")
-        victim_list = soup.find_all("div", {"id" : re.compile('comp.*')})
+        victim_list = soup.find_all("div", {"id" : re.compile("comp.*")})
 
         for victim in victim_list:
-            victim_name = victim.find("div", class_="panel-heading").find("h3").text.strip()
-            victim_leak_site = self.url + "/#" + victim.get('id')
+            victim_h3 = victim.find("div", class_="panel-heading").find("h3")
+            if victim_h3 is None:
+                # unpublished victims are in a h4
+                continue
+            victim_name = victim_h3.text.strip()
+            victim_leak_site = self.url + "/#" + victim.get("id")
 
             if victim.find("span", class_="glyphicon"):
                 published = victim.find("span", class_="glyphicon").next_sibling
@@ -52,7 +56,6 @@ class Lorenz(SiteCrawler):
 
             # find all pages
             page_nav = soup.find_all("a", class_="page-numbers")
-
             
             site_list = []
             site_list.append(self.url)
