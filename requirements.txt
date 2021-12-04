@@ -6,3 +6,4 @@ SQLAlchemy
 pyyaml
 python-dateutil
 lxml
+dateparser
