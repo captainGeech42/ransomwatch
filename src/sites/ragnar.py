@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 import logging
 
 from bs4 import BeautifulSoup
@@ -23,9 +24,6 @@ class Ragnar(SiteCrawler):
             js_victims_raw = ""
             js_marker = "var post_links = "
 
-            with open("index.html") as f:
-                html = f.read()
-            soup = BeautifulSoup(html, "html.parser")
             script_list = soup.find_all("script")
 
             for script in script_list:
