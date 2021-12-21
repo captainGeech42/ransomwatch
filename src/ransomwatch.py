@@ -50,7 +50,8 @@ def main(argv):
         sites.Avoslocker,
         sites.LV,
         sites.Marketo,
-        sites.LockData
+        sites.LockData,
+        sites.Rook
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")
