@@ -1,11 +1,13 @@
+import re
 from datetime import datetime
-import logging
-
 from bs4 import BeautifulSoup
 
 from db.models import Victim
 from net.proxy import Proxy
 from .sitecrawler import SiteCrawler
+from config import Config
+
+from playwright.sync_api import sync_playwright
 
 
 class Lockbit(SiteCrawler):
@@ -40,9 +42,18 @@ class Lockbit(SiteCrawler):
 
 
     def scrape_victims(self):
-        with Proxy() as p:
-            r = p.get(f"{self.url}", headers=self.headers)
-            soup = BeautifulSoup(r.content.decode(), "html.parser")
+        with sync_playwright() as p:
+            browser = p.chromium.launch(proxy={"server": f'socks://{Config["proxy"]["hostname"]}:{Config["proxy"]["socks_port"]}'})
+            page = browser.new_page()
+            page.set_extra_http_headers(self.headers) 
+            page.goto(self.url)
+            
+            welcome_page_countdown = re.findall(r"let counter = (\d)\s", page.content())
+            welcome_page_countdown = ((int(welcome_page_countdown[0]) * 1000) + 500) if len(welcome_page_countdown) > 0 else 10000 # 10s as a timeout fallback value
+            page.wait_for_timeout(welcome_page_countdown)
+            res = page.content()
+
+            soup = BeautifulSoup(res, "html.parser")
 
             # find all pages
             page_nav = soup.find_all("a", class_="page-numbers")
@@ -57,5 +68,8 @@ class Lockbit(SiteCrawler):
                     site_list.append(page.attrs["href"])
             
             for site in site_list:
-                r = p.get(site, headers=self.headers)
-                self._handle_page(r.content.decode()) 
+                page.goto(self.url)
+                r = page.content()
+                self._handle_page(r) 
+
+            browser.close()
