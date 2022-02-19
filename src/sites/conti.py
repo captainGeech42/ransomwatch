@@ -1,5 +1,7 @@
 from datetime import datetime
 import logging
+import re
+import json
 
 from bs4 import BeautifulSoup
 
@@ -11,39 +13,36 @@ class Conti(SiteCrawler):
     actor = "Conti"
 
     def _handle_page(self, body: str):
-        soup = BeautifulSoup(body, "html.parser")
 
-        victim_divs = soup.find_all("div", class_="card")
+        news_list = re.findall(r'newsList\(\s(\[.*\])\s\);', body)
+        
+        if len(news_list) > 0:
+            news_list = json.loads(news_list[0])
 
-        for div in victim_divs:
-            # parse all the stuff out of the html
-            name = div.find("div", class_="title").text[1:-1].strip()
+            for elem in news_list:
+                name = elem['title']
+                published_dt = datetime.fromtimestamp(elem['date'])
+                url = f"{self.url}{elem['url']}"
+                
+                logging.debug(f"Found victim: {name} ({url}) published at {published_dt}")
 
-            footer_div = div.find("div", class_="footer")
-            published = footer_div.find("div")
-            published_dt = datetime.strptime(published.text.strip(), "%B %d, %Y")
+                # check if the org is already seen (search by url because name isn't guarenteed unique)
+                q = self.session.query(Victim).filter_by(url=url, site=self.site)
 
-            url = self.url + footer_div.find_all("div")[-1].find("a").attrs["href"]
+                if q.count() == 0:
+                    # new org
+                    v = Victim(name=name, url=url, published=published_dt, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
+                    self.session.add(v)
+                    self.new_victims.append(v)
+                else:
+                    # already seen, update last_seen
+                    v = q.first()
+                    v.last_seen = datetime.utcnow()
 
-            logging.debug(f"Found victim: {name}")
+                # add the org to our seen list
+                self.current_victims.append(v)
 
-            # check if the org is already seen (search by url because name isn't guarenteed unique)
-            q = self.session.query(Victim).filter_by(url=url, site=self.site)
-
-            if q.count() == 0:
-                # new org
-                v = Victim(name=name, url=url, published=published_dt, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
-                self.session.add(v)
-                self.new_victims.append(v)
-            else:
-                # already seen, update last_seen
-                v = q.first()
-                v.last_seen = datetime.utcnow()
-
-            # add the org to our seen list
-            self.current_victims.append(v)
-
-        self.session.commit()
+            self.session.commit()
 
     def scrape_victims(self):
         with Proxy() as p:
@@ -60,7 +59,6 @@ class Conti(SiteCrawler):
             # start at the last page and go backwards, in case a new victim was added while running (unlikely but possible)
             for i in range(max_page_num, 0, -1):
                 r = p.get(f"{self.url}/page/{i}", headers=self.headers)
-
                 self._handle_page(r.content.decode())
                 
             # check one past the last page to see if new orgs were added that caused another page to be added
