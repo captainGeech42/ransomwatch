@@ -4,6 +4,8 @@
 
 RansomWatch is a ransomware leak site monitoring tool. It will scrape all of the entries on various ransomware leak sites, store the data in a SQLite database, and send notifications via Slack or Discord when a new victim shows up, or when a victim is removed.
 
+_Note: RansomWatch isn't being actively updated for the latest sites, and is mostly reliant on third-party contributions. Please open a pull request, and/or DM me on [Twitter](https://twitter.com/captainGeech42)._
+
 ## Configuration
 
 In `config_vol/`, please copy `config.sample.yaml` to `config.yaml`, and add the following:
