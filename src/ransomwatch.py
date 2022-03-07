@@ -51,7 +51,8 @@ def main(argv):
         sites.LV,
         sites.Marketo,
         sites.LockData,
-        sites.Rook
+        sites.Rook,
+        sites.Snatch
     ]
 
     logging.info(f"Found {len(sites_to_analyze)} sites")

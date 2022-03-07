@@ -1,13 +1,12 @@
 import logging
 from datetime import datetime
-
 from bs4 import BeautifulSoup
 import dateparser
 from dateutil.relativedelta import relativedelta
-
 from db.models import Victim
 from net.proxy import Proxy
 from .sitecrawler import SiteCrawler
+import helpers.victims as victims
 
 class Pysa(SiteCrawler):
     actor = "Pysa"
@@ -34,22 +33,7 @@ class Pysa(SiteCrawler):
                     logging.warning(f"couldn't parse timestamp: {published}")
 
                 victim_leak_site = self.url + '/' + victim.find_all("a")[0].attrs["href"]
-                q = self.session.query(Victim).filter_by(
-                    url=victim_leak_site, site=self.site)
-
-                if q.count() == 0:
-                    # new victim
-                    v = Victim(name=victim_name, url=victim_leak_site, published=published_dt,
-                               first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
-                    self.session.add(v)
-                    self.new_victims.append(v)
-                else:
-                    # already seen, update last_seen
-                    v = q.first()
-                    v.last_seen = datetime.utcnow()
-
-                # add the org to our seen list
-                self.current_victims.append(v)
+                victims.append_victims(self, victim_leak_site, victim_name, published_dt)
             self.session.commit()
 
         self.site.last_scraped = datetime.utcnow()

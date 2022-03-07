@@ -6,6 +6,9 @@ from db.models import Victim
 from net.proxy import Proxy
 from .sitecrawler import SiteCrawler
 
+import helpers.victims as victims
+
+
 class Hive(SiteCrawler):
     actor = "Hive"
 
@@ -39,25 +42,13 @@ class Hive(SiteCrawler):
 
             for entry in j:
                 name = entry["title"]
+                url = entry["website"]
 
                 logging.debug(f"Found victim: {name}")
 
                 publish_dt = datetime.strptime(entry["disclosed_at"], "%Y-%m-%dT%H:%M:%SZ")
 
-                q = self.session.query(Victim).filter_by(site=self.site, name=name)
-
-                if q.count() == 0:
-                    # new victim
-                    v = Victim(name=name, url=None, published=publish_dt, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
-                    self.session.add(v)
-                    self.new_victims.append(v)
-                else:
-                    # already seen, update last_seen
-                    v = q.first()
-                    v.last_seen = datetime.utcnow()
-                
-                # add the org to our seen list
-                self.current_victims.append(v)
+                victims.append_victims(self, url, name, publish_dt)
             
         self.site.last_scraped = datetime.utcnow()
         self.session.commit()

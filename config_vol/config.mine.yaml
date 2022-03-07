@@ -1,0 +1,87 @@
+---
+# key-value mapping of actor-leak site URL
+sites:
+  #conti: http://something.onion
+  #revil: http://something.onion
+  ##avaddon: http://something.onion
+  ##darkside: http://something.onion
+  #babuk: http://something.onion
+  ##ranzy: http://something.onion
+  ##astro: http://something.onion
+  #pay2key: http://something.onion
+  #cuba: http://something.onion
+  #ransomexx: http://rnsm777cdsjrsdlbs4v5qoeppu3px6sb2igmh53jzrx7ipcrbjz5b2ad.onion
+  #mount: http://something.onion
+  #ragnarok: http://something.onion
+  #ragnar: http://rgleaktxuey67yrgspmhvtnrqtgogur35lwdrup4d3igtbm3pupc4lyd.onion
+  #suncrypt: http://something.onion
+  #everest: http://something.onion
+  ###nefilim: http://something.onion
+  ###cl0p: http://something.onion
+  #pysa: http://pysa2bitc5ldeyfak4seeruqymqs4sj5wt5qkcq7aoyg4h2acqieywad.onion
+  ###lockbit: http://something.onion
+  #xing: http://something.onion
+  #lorenz: http://lorenzmlwpzgxq736jzseuterytjueszsvznuibanxomlpkyxk6ksoyd.onion
+  #elcometa: http://something.onion
+  #arvin: http://3kp6j22pz3zkv76yutctosa6djpj4yib2icvdqxucdaxxedumhqicpad.onion
+  #blackmatter: http://something.onion
+  #avoslocker: http://something.onion
+  #lv: http://something.onion
+  #marketo: http://something.onion
+  #lockdata: http://something.onion
+  ## this has to be their API url, see readme for details
+  #hive: http://hiveapisomething.onion
+  rook: http://gamol6n6p2p4c3ad7gxmx3ur7wwdwlywebo2azv3vv5qlmjmole2zbyd.onion
+
+# slack webhooks
+notifications:
+  #dest1:
+  #  # type of notification
+  #  # valid options: slack, discord, Teams
+  #  type: slack
+
+  #  # url for the webhook (slack, discord, Teams)
+  #  url: https://hooks.slack.com/services/something/goes/here
+
+  #  # should new victim notifications be sent to this webhook?
+  #  new_victims: true
+
+  #  # should removed victim notifications be sent to this webhook?
+  #  removed_victims: true
+
+  #  # should notifications be sent to this webhook if a site is detected as down?
+  #  down_sites: true
+
+  #  # should errors be sent to this webook?
+  #  errors: true
+
+  #  # may in the future add support for not sending leak site links
+  #  # if you actively want this, open an issue (or make a PR)
+  #dest2:
+  #  type: slack
+  #  url: https://hooks.slack.com/services/something/else/goes/here
+  #  new_victims: true
+  #  removed_victims: true
+  #  down_sites: true
+  #  errors: false
+
+# how many seconds to wait for a connection
+# this is used to check if the site is up, and doesn't wait
+# for the full page data to be downloaded
+timeout: 30
+
+# tor proxy settings
+# the values set below are for the provided docker-compose.yml
+# adjust for your own custom environment
+proxy:
+  # hostname for the proxy
+  hostname: proxy
+
+  # port for the SOCKS proxy
+  socks_port: 9050
+
+  # port for the tor control service
+  control_port: 9051
+
+  # password for the tor control service
+  password: password

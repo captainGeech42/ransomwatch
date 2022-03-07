@@ -1,16 +1,17 @@
 from datetime import datetime
 import logging
-
 from bs4 import BeautifulSoup
-
 from db.models import Victim
 from net.proxy import Proxy
 from .sitecrawler import SiteCrawler
+import helpers.victims as victims
+import helpers.pagination as pagination
+
 
 class Avaddon(SiteCrawler):
     actor = "Avaddon"
     
-    def _handle_page(self, body: str):
+    def handle_page(self, body: str):
         soup = BeautifulSoup(body, "html.parser")
 
         victim_divs = soup.find_all("div", class_="border-top border-light pt-3 mb-4")
@@ -23,25 +24,11 @@ class Avaddon(SiteCrawler):
 
             logging.debug(f"Found victim: {name}")
 
-            # check if the org is already seen (search by url because name isn't guarenteed unique)
-            q = self.session.query(Victim).filter_by(url=url, site=self.site)
-
-            if q.count() == 0:
-                # new org
-                v = Victim(name=name, url=url, published=None, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
-                self.session.add(v)
-                self.new_victims.append(v)
-            else:
-                # already seen, update last_seen
-                v = q.first()
-                v.last_seen = datetime.utcnow()
-
-            # add the org to our seen list
-            self.current_victims.append(v)
+            victims.append_victims(self, url, name, None)
 
         self.session.commit()
 
-    def _handle_page_type(self, url: str):
+    def handle_page_type(self, url: str):
         with Proxy() as p:
             r = p.get(f"{url}", headers=self.headers)
 
@@ -53,15 +40,7 @@ class Avaddon(SiteCrawler):
 
             max_page_num = int(last_li.find("a").text)
 
-            # start at the last page and go backwards, in case a new victim was added while running (unlikely but possible)
-            for i in range(max_page_num, 0, -1):
-                r = p.get(f"{url}?page={i}", headers=self.headers)
-
-                self._handle_page(r.content.decode())
-                
-            # check one past the last page to see if new orgs were added that caused another page to be added
-            r = p.get(f"{url}?page={max_page_num+1}", headers=self.headers)
-            self._handle_page(r.content.decode())
+            pagination.handle_pages_backwards(self, p, max_page_num)
 
         # just for good measure
         self.session.commit()
@@ -74,7 +53,7 @@ class Avaddon(SiteCrawler):
         ]
 
         for p in pages:
-            self._handle_page_type(p)
+            self.handle_page_type(p)
         
         self.site.last_scraped = datetime.utcnow()
         self.session.commit()

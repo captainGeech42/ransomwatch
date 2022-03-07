@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 from db.models import Victim
 from net.proxy import Proxy
 from .sitecrawler import SiteCrawler
+import helpers.victims as victims
+
 
 class DarkSide(SiteCrawler):
     actor = "DarkSide"
@@ -34,7 +36,7 @@ class DarkSide(SiteCrawler):
                 # parse out the details link
                 # this is ugly but it works
                 body_div = parent_div.find("div", class_="body")
-                link_div = body_div.find_all("div")[-1]
+                # link_div = body_div.find_all("div")[-1] //Commented out Unused line
                 a = body_div.find_all("div")
                 b = a[-1]
                 c = b.find("a")
@@ -42,21 +44,7 @@ class DarkSide(SiteCrawler):
 
                 logging.debug(f"Found victim: {name}")
 
-                # check if the org is already seen (search by url because name isn't guarenteed unique)
-                q = self.session.query(Victim).filter_by(url=url, site=self.site)
-
-                if q.count() == 0:
-                    # new org
-                    v = Victim(name=name, url=url, published=published_dt, first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
-                    self.session.add(v)
-                    self.new_victims.append(v)
-                else:
-                    # already seen, update last_seen
-                    v = q.first()
-                    v.last_seen = datetime.utcnow()
-
-                # add the org to our seen list
-                self.current_victims.append(v)
+                victims.append_victims(self, url, name, published_dt)
 
             self.site.last_scraped = datetime.utcnow()
             self.session.commit()

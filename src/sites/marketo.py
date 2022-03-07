@@ -1,17 +1,21 @@
 from datetime import datetime
 import logging
-
-from bs4 import BeautifulSoup
-
+from bs4 import BeautifulSoup, NavigableString
 from db.models import Victim
 from net.proxy import Proxy
 from .sitecrawler import SiteCrawler
+import helpers.victims as victims
+import helpers.pagination as pagination
+
+
+def get_text(victim_name_div):
+    return ''.join(victim_name_div.find_all(text=True, recursive=False)).strip()
 
 
 class Marketo(SiteCrawler):
     actor = "Marketo"
 
-    def scrape_victims(self):
+    def handle_page(self, body: str):
         with Proxy() as p:
             r = p.get(f"{self.url}", headers=self.headers)
 
@@ -21,32 +25,23 @@ class Marketo(SiteCrawler):
             victim_list = soup.find_all("div", class_="lot-card row m-0")
 
             for victim in victim_list:
-
-                victim_name = victim.find("div", class_="text-left text-grey d-block overflow-hidden").find("a").attrs["href"]
+                victim_name_div = victim.find("div", class_="text-left text-grey d-block overflow-hidden")
+                victim_name = get_text(victim_name_div).strip().split("|")[0]
 
                 published_dt = None
 
-                victim_leak_site = None
+                victim_leak_site = victim.find(
+                    "div", class_="text-left text-grey d-block overflow-hidden"
+                ).find("a").attrs["href"]
 
-                q = self.session.query(Victim).filter_by(
-                    url=victim_leak_site, site=self.site)
-
-                if q.count() == 0:
-                    # new victim
-                    v = Victim(name=victim_name, url=victim_leak_site, published=published_dt,
-                               first_seen=datetime.utcnow(), last_seen=datetime.utcnow(), site=self.site)
-                    self.session.add(v)
-                    self.new_victims.append(v)
-                else:
-                    # already seen, update last_seen
-                    v = q.first()
-                    v.last_seen = datetime.utcnow()
-
-                # add the org to our seen list
-                self.current_victims.append(v)
+                victims.append_victims(self, victim_leak_site, victim_name, published_dt)
             self.session.commit()
 
         self.site.last_scraped = datetime.utcnow()
 
         # just for good measure
         self.session.commit()
+
+    def scrape_victims(self):
+        with Proxy() as p:
+            pagination.handle_pages_for(self, p, "page-item")
